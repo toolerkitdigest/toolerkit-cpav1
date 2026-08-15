@@ -1,0 +1,543 @@
+
+
+/* =====================
+GLOBAL
+===================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    background:#070b14;
+    color:#ffffff;
+    line-height:1.6;
+}
+
+
+a{
+    text-decoration:none;
+    color:white;
+}
+
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+}
+
+
+.btn{
+
+    display:inline-block;
+    padding:15px 30px;
+    border-radius:50px;
+    background:#00ff88;
+    color:#00150c;
+    font-weight:700;
+    transition:.3s;
+}
+
+
+.btn:hover{
+
+    transform:translateY(-3px);
+    box-shadow:0 10px 30px rgba(0,255,136,.3);
+
+}
+
+
+.secondary{
+
+    background:transparent;
+    border:1px solid #00ff88;
+    color:white;
+
+}
+
+
+
+/* =====================
+NAVBAR
+===================== */
+
+
+nav{
+
+    position:sticky;
+    top:0;
+    background:rgba(7,11,20,.85);
+    backdrop-filter:blur(10px);
+    z-index:1000;
+}
+
+
+.navbar{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 0;
+
+}
+
+
+.logo{
+
+    font-size:26px;
+    font-weight:800;
+
+}
+
+
+.logo span{
+
+    color:#00ff88;
+
+}
+
+
+.nav-links{
+
+    display:flex;
+    gap:25px;
+
+}
+
+
+/* =====================
+HERO
+===================== */
+
+
+.hero{
+
+    min-height:90vh;
+    display:flex;
+    align-items:center;
+    background:
+    linear-gradient(
+    rgba(7,11,20,.8),
+    rgba(7,11,20,.95)
+    ),
+    url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3");
+
+    background-size:cover;
+    background-position:center;
+
+}
+
+
+.hero-content{
+
+    max-width:700px;
+
+}
+
+
+.hero h1{
+
+    font-size:55px;
+    line-height:1.1;
+    margin-bottom:20px;
+
+}
+
+
+.hero h1 span{
+
+    color:#00ff88;
+
+}
+
+
+.hero p{
+
+    font-size:20px;
+    color:#c7d0da;
+    margin-bottom:35px;
+
+}
+
+
+.buttons{
+
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+
+}
+
+
+/* =====================
+CARDS
+===================== */
+
+
+section{
+
+    padding:80px 0;
+
+}
+
+
+.title{
+
+    text-align:center;
+    margin-bottom:50px;
+
+}
+
+
+.title h2{
+
+    font-size:36px;
+
+}
+
+
+.grid{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+
+}
+
+
+.card{
+
+    background:#101827;
+    padding:30px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.08);
+    transition:.3s;
+
+}
+
+
+.card:hover{
+
+    transform:translateY(-8px);
+    border-color:#00ff88;
+
+}
+
+
+
+.preview{
+
+    text-align:center;
+
+}
+
+
+.preview img{
+
+    width:300px;
+    border-radius:20px;
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+
+}
+
+
+
+/* =====================
+STEPS
+===================== */
+
+
+.step{
+
+    text-align:center;
+
+}
+
+
+.step strong{
+
+    display:block;
+    font-size:40px;
+    color:#00ff88;
+
+}
+
+
+
+/* =====================
+FAQ
+===================== */
+
+
+.faq{
+
+    max-width:800px;
+    margin:auto;
+
+}
+
+
+.question{
+
+    background:#101827;
+    padding:20px;
+    margin-bottom:15px;
+    cursor:pointer;
+    border-radius:15px;
+
+}
+
+
+.answer{
+
+    display:none;
+    padding:15px;
+    color:#ccc;
+
+}
+
+
+
+/* =====================
+EMAIL
+===================== */
+
+
+.email-box{
+
+    background:#101827;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+
+}
+
+
+input{
+
+    padding:15px;
+    width:300px;
+    max-width:90%;
+    border-radius:30px;
+    border:none;
+    margin:15px;
+
+}
+
+
+
+/* FOOTER */
+
+
+footer{
+
+    padding:40px 0;
+    text-align:center;
+    background:#050810;
+    color:#aaa;
+
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.hero h1{
+
+font-size:38px;
+
+}
+
+.nav-links{
+
+display:none;
+
+}
+
+}
+
+/* =========================
+   CPA REDIRECT LOADING
+   ========================= */
+
+.loading-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(7,11,20,.97);
+
+    /*
+    IMPORTANT:
+    Hidden by default.
+    */
+
+    visibility:hidden;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:99999;
+
+    padding:20px;
+
+    transition:
+        opacity .25s ease,
+        visibility .25s ease;
+
+}
+
+
+/*
+When active, the loading screen becomes visible
+and starts receiving interaction.
+*/
+
+.loading-overlay.active{
+
+    visibility:visible;
+
+    opacity:1;
+
+    pointer-events:auto;
+
+}
+
+
+/* =========================
+   LOADING BOX
+   ========================= */
+
+.loading-box{
+
+    width:100%;
+
+    max-width:500px;
+
+    text-align:center;
+
+    background:#101827;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:25px;
+
+    padding:45px 30px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.5);
+
+}
+
+
+.loading-box h2{
+
+    margin-top:25px;
+
+    margin-bottom:10px;
+
+    font-size:25px;
+
+}
+
+
+.loading-box p{
+
+    color:#c7d0da;
+
+    font-size:15px;
+
+}
+
+
+/* =========================
+   SPINNER
+   ========================= */
+
+.spinner{
+
+    width:60px;
+
+    height:60px;
+
+    margin:auto;
+
+    border:5px solid rgba(255,255,255,.12);
+
+    border-top:5px solid #00ff88;
+
+    border-radius:50%;
+
+    animation:
+        spin 1s linear infinite;
+
+}
+
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media(max-width:768px){
+
+    .loading-box{
+
+        padding:35px 20px;
+
+    }
+
+
+    .loading-box h2{
+
+        font-size:21px;
+
+    }
+
+
+    .loading-box p{
+
+        font-size:14px;
+
+    }
+
+
+    .spinner{
+
+        width:50px;
+
+        height:50px;
+
+    }
+
+}

@@ -1,0 +1,30 @@
+[build]
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/api/track-click"
+  to = "/.netlify/functions/track-click"
+  status = 200
+
+[[redirects]]
+  from = "/api/ogads"
+  to = "/.netlify/functions/ogads-postback"
+  status = 200
+
+[[redirects]]
+  from = "/api/cpagrip"
+  to = "/.netlify/functions/cpagrip-postback"
+  status = 200
+
+[[redirects]]
+  from = "/api/verify-access"
+  to = "/.netlify/functions/verify-access"
+  status = 200
+
+[[redirects]]
+  from = "/api/download"
+  to = "/.netlify/functions/download-ebook"
+  status = 200
