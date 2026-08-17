@@ -1,4 +1,100 @@
+/* =======================================================
+   VISITOR CLICK ID
+   ======================================================= */
 
+let visitorClickId = null;
+
+
+/*
+Generate/retrieve a unique CPA click ID.
+*/
+
+async function initializeClickId() {
+
+    try {
+
+        /*
+        Check whether this visitor already has
+        a click ID stored in the browser.
+        */
+
+        visitorClickId =
+            localStorage.getItem("tdr_click_id");
+
+
+        /*
+        If there is no existing ID,
+        request a new one from Netlify.
+        */
+
+        if (!visitorClickId) {
+
+            const response =
+                await fetch("/api/track-click");
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to generate click ID."
+                );
+
+            }
+
+            const data =
+                await response.json();
+
+
+            if (
+                data &&
+                data.success &&
+                data.click_id
+            ) {
+
+                visitorClickId =
+                    data.click_id;
+
+
+                /*
+                Store the click ID so the same
+                visitor can continue using it.
+                */
+
+                localStorage.setItem(
+                    "tdr_click_id",
+                    visitorClickId
+                );
+
+
+                console.log(
+                    "Visitor click ID:",
+                    visitorClickId
+                );
+
+            }
+
+        } else {
+
+            console.log(
+                "Existing visitor click ID:",
+                visitorClickId
+            );
+
+        }
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Click ID initialization failed:",
+            error
+        );
+
+        visitorClickId = null;
+
+    }
+
+}
 /*
 =========================================================
 TECHDEVRise CPA LANDING PAGE
@@ -1133,6 +1229,17 @@ document.addEventListener(
         initializeGoogleTag();
 
 
+        
+        /* Initialize Click ID
+        */
+
+
+        initializeClickId();
+
+        
+        
+
+
         /*
         Start country detection.
 
@@ -1144,7 +1251,7 @@ document.addEventListener(
 
 
         console.log(
-            "TechDevRise CPA landing page initialized."
+            "Toolerkit CPA landing page initialized."
         );
 
 
