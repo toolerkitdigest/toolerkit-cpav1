@@ -1,86 +1,84 @@
 /*
 =========================================================
 TOOLERKITDIGEST
-OGADS POSTBACK ENDPOINT
-=========================================================
-
-Receives conversion notifications from OGAds.
-
-OGAds sends:
-
-{aff_sub}
-{payout}
-{offer_id}
-{offer_name}
-{session_ip}
-{datetime}
-
-We use aff_sub as our visitor click ID.
+OGADS POSTBACK
 =========================================================
 */
+
+import {
+    saveConversion
+} from "../lib/conversion-store.js";
+
 
 export default async (request) => {
 
     try {
 
-        /*
-        Read parameters sent by OGAds.
-        */
-
         const url =
             new URL(request.url);
 
-        const clickId =
-            url.searchParams.get("click_id");
-
-        const payout =
-            url.searchParams.get("payout");
-
-        const offerId =
-            url.searchParams.get("offer_id");
-
-        const offerName =
-            url.searchParams.get("offer_name");
-
-        const sessionIp =
-            url.searchParams.get("session_ip");
-
-        const datetime =
-            url.searchParams.get("datetime");
-
 
         /*
-        Log the conversion information.
-
-        We will later replace this temporary
-        logging system with persistent storage.
+        OGAds sends its {aff_sub} value
+        into our click_id parameter.
         */
 
-        console.log(
-            "OGAds conversion received:",
-            {
-                clickId,
-                payout,
-                offerId,
-                offerName,
-                sessionIp,
-                datetime
-            }
-        );
+        const clickId =
+            url.searchParams.get(
+                "click_id"
+            );
+
+
+        const payout =
+            url.searchParams.get(
+                "payout"
+            );
+
+
+        const offerId =
+            url.searchParams.get(
+                "offer_id"
+            );
+
+
+        const offerName =
+            url.searchParams.get(
+                "offer_name"
+            );
+
+
+        const sessionIp =
+            url.searchParams.get(
+                "session_ip"
+            );
+
+
+        const datetime =
+            url.searchParams.get(
+                "datetime"
+            );
 
 
         /*
-        Make sure OGAds supplied our click ID.
+        A click ID is required.
         */
 
         if (!clickId) {
 
+            console.error(
+                "OGAds postback missing click ID."
+            );
+
+
             return new Response(
 
                 JSON.stringify({
+
                     success: false,
+
                     message:
                         "Missing click ID."
+
                 }),
 
                 {
@@ -98,7 +96,48 @@ export default async (request) => {
 
 
         /*
-        Successful test response.
+        Save the verified conversion.
+        */
+
+        const conversion =
+            await saveConversion(
+
+                clickId,
+
+                {
+
+                    network:
+                        "OGADS",
+
+                    offer_id:
+                        offerId,
+
+                    offer_name:
+                        offerName,
+
+                    payout:
+                        payout,
+
+                    session_ip:
+                        sessionIp,
+
+                    datetime:
+                        datetime
+
+                }
+
+            );
+
+
+        console.log(
+            "OGAds conversion saved:",
+            conversion
+        );
+
+
+        /*
+        Tell OGAds that we received
+        the conversion successfully.
         */
 
         return new Response(
@@ -108,7 +147,7 @@ export default async (request) => {
                 success: true,
 
                 message:
-                    "OGAds conversion received.",
+                    "OGAds conversion verified and saved.",
 
                 click_id:
                     clickId
@@ -116,12 +155,16 @@ export default async (request) => {
             }),
 
             {
+
                 status: 200,
 
                 headers: {
+
                     "Content-Type":
                         "application/json"
+
                 }
+
             }
 
         );
@@ -148,12 +191,16 @@ export default async (request) => {
             }),
 
             {
+
                 status: 500,
 
                 headers: {
+
                     "Content-Type":
                         "application/json"
+
                 }
+
             }
 
         );
