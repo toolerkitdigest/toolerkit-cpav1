@@ -1,8 +1,16 @@
 /* =======================================================
-   VISITOR CLICK ID
+   TOOLERKITDIGEST CPA LANDING PAGE
+   CLICK ID + TRACKING + EMAIL + GEO CPA ROUTING
+   ======================================================= */
+
+
+/* =======================================================
+   1. VISITOR CLICK ID
    ======================================================= */
 
 let visitorClickId = null;
+
+let clickIdReady = false;
 
 
 /*
@@ -30,7 +38,11 @@ async function initializeClickId() {
         if (!visitorClickId) {
 
             const response =
-                await fetch("/api/track-click");
+                await fetch("/api/track-click", {
+                    method: "GET",
+                    cache: "no-store"
+                });
+
 
             if (!response.ok) {
 
@@ -39,6 +51,7 @@ async function initializeClickId() {
                 );
 
             }
+
 
             const data =
                 await response.json();
@@ -55,8 +68,7 @@ async function initializeClickId() {
 
 
                 /*
-                Store the click ID so the same
-                visitor can continue using it.
+                Store click ID locally.
                 */
 
                 localStorage.setItem(
@@ -64,22 +76,27 @@ async function initializeClickId() {
                     visitorClickId
                 );
 
-
-                console.log(
-                    "Visitor click ID:",
-                    visitorClickId
-                );
-
             }
 
-        } else {
-
-            console.log(
-                "Existing visitor click ID:",
-                visitorClickId
-            );
-
         }
+
+
+        /*
+        Make the click ID globally available.
+        */
+
+        window.visitorClickId =
+            visitorClickId;
+
+
+        clickIdReady = true;
+
+
+        console.log(
+            "Visitor click ID:",
+            visitorClickId
+        );
+
 
     }
 
@@ -90,36 +107,20 @@ async function initializeClickId() {
             error
         );
 
+
         visitorClickId = null;
+
+        window.visitorClickId = null;
+
+        clickIdReady = false;
 
     }
 
 }
-/*
-=========================================================
-TECHDEVRise CPA LANDING PAGE
-TRACKING + EMAIL COLLECTION + GEO CPA ROUTING
-=========================================================
-
-FLOW:
-
-1. FAQ accordion
-2. Tracking initialization
-3. Visitor country detection
-4. Email validation
-5. Silent Google Form submission
-6. Facebook Pixel event
-7. Google Ads conversion event
-8. Country-specific CPA offer
-9. Global CPA offer
-10. Fallback CPA offer
-
-=========================================================
-*/
 
 
 /* =======================================================
-   1. CONFIGURATION
+   2. CONFIGURATION
    ======================================================= */
 
 
@@ -127,18 +128,6 @@ FLOW:
 ---------------------------------------------------------
 FACEBOOK PIXEL
 ---------------------------------------------------------
-
-Replace:
-
-YOUR_FACEBOOK_PIXEL_ID
-
-with your real Meta/Facebook Pixel ID.
-
-Example:
-
-123456789012345
-
-Leave it unchanged until you have your real ID.
 */
 
 const FACEBOOK_PIXEL_ID =
@@ -149,16 +138,6 @@ const FACEBOOK_PIXEL_ID =
 ---------------------------------------------------------
 GOOGLE ADS
 ---------------------------------------------------------
-
-Replace these with your real Google Ads information.
-
-Example:
-
-GOOGLE_ADS_ID:
-AW-123456789
-
-GOOGLE_CONVERSION_LABEL:
-AbCdEFghIjK
 */
 
 const GOOGLE_ADS_ID =
@@ -172,22 +151,6 @@ const GOOGLE_CONVERSION_LABEL =
 ---------------------------------------------------------
 GOOGLE FORM
 ---------------------------------------------------------
-
-IMPORTANT:
-
-We will replace these when you provide your Google Form.
-
-FORM_ACTION:
-Your Google Form formResponse URL.
-
-EMAIL_ENTRY_ID:
-The entry ID belonging to the EMAIL field.
-
-Example:
-
-https://docs.google.com/forms/d/e/XXXXXXXX/formResponse
-
-entry.123456789
 */
 
 const GOOGLE_FORM_ACTION =
@@ -202,70 +165,36 @@ const GOOGLE_FORM_EMAIL_ENTRY =
 CPA OFFERS
 ---------------------------------------------------------
 
-IMPORTANT:
-
-These are placeholders.
-
-Replace the URLs when you have your actual CPA offers.
-
-The system checks:
+Priority:
 
 1. Country-specific offer
 2. Global offer
 3. Fallback offer
-
 ---------------------------------------------------------
 */
 
 const CPA_OFFERS = {
 
-
-    /*
-    =====================================================
-    COUNTRY-SPECIFIC OFFERS
-    =====================================================
-    */
-
-
     NG:
         "https://YOUR-NIGERIA-CPA-OFFER.com",
-
 
     US:
         "https://YOUR-USA-CPA-OFFER.com",
 
-
     GB:
         "https://YOUR-UK-CPA-OFFER.com",
-
 
     CA:
         "https://YOUR-CANADA-CPA-OFFER.com",
 
-
     AU:
         "https://YOUR-AUSTRALIA-CPA-OFFER.com",
-
 
     ZA:
         "https://YOUR-SOUTH-AFRICA-CPA-OFFER.com",
 
-
-    /*
-    =====================================================
-    GLOBAL OFFER
-    =====================================================
-    */
-
     GLOBAL:
         "https://YOUR-GLOBAL-CPA-OFFER.com",
-
-
-    /*
-    =====================================================
-    FALLBACK OFFER
-    =====================================================
-    */
 
     FALLBACK:
         "https://YOUR-FALLBACK-CPA-OFFER.com"
@@ -273,68 +202,28 @@ const CPA_OFFERS = {
 };
 
 
-
-/*
-=========================================================
-COUNTRY DETECTION API
-=========================================================
-
-We use an IP-based country detection service.
-
-The visitor's IP address is NOT manually collected
-by this script.
-
-The service returns country information.
-
-=========================================================
-*/
+/* =======================================================
+   3. COUNTRY DETECTION
+   ======================================================= */
 
 const GEO_API =
     "https://ipapi.co/json/";
 
 
-
-/* =======================================================
-   2. GLOBAL STATE
-   ======================================================= */
-
-
-/*
-Store visitor country.
-
-Example:
-
-NG
-US
-GB
-CA
-
-*/
-
 let visitorCountry = null;
-
-
-
-/*
-Store whether country detection succeeded.
-*/
 
 let countryDetectionComplete = false;
 
 
-
 /* =======================================================
-   3. FAQ ACCORDION
+   4. FAQ ACCORDION
    ======================================================= */
-
 
 document
     .querySelectorAll(".question")
     .forEach(item => {
 
-
         item.onclick = function () {
-
 
             const answer =
                 this.nextElementSibling;
@@ -345,26 +234,16 @@ document
                     ? "none"
                     : "block";
 
-
         };
-
 
     });
 
 
-
 /* =======================================================
-   4. FACEBOOK PIXEL
+   5. FACEBOOK PIXEL
    ======================================================= */
 
-
-/*
-Initialize Facebook Pixel only when a real Pixel ID
-has been entered.
-*/
-
 function initializeFacebookPixel() {
-
 
     if (
         !FACEBOOK_PIXEL_ID ||
@@ -380,10 +259,6 @@ function initializeFacebookPixel() {
 
     }
 
-
-    /*
-    Facebook Pixel base code
-    */
 
     !function(f,b,e,v,n,t,s)
     {
@@ -404,7 +279,7 @@ function initializeFacebookPixel() {
 
         n.loaded=!0;
 
-        n.version='2.0';
+        n.version="2.0";
 
         n.queue=[];
 
@@ -421,20 +296,20 @@ function initializeFacebookPixel() {
     }(
         window,
         document,
-        'script',
-        'https://connect.facebook.net/en_US/fbevents.js'
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js"
     );
 
 
     window.fbq(
-        'init',
+        "init",
         FACEBOOK_PIXEL_ID
     );
 
 
     window.fbq(
-        'track',
-        'PageView'
+        "track",
+        "PageView"
     );
 
 
@@ -445,18 +320,11 @@ function initializeFacebookPixel() {
 }
 
 
-
 /* =======================================================
-   5. GOOGLE TAG
+   6. GOOGLE TAG
    ======================================================= */
 
-
-/*
-Load Google Ads / Google Tag only when configured.
-*/
-
 function initializeGoogleTag() {
-
 
     if (
         !GOOGLE_ADS_ID ||
@@ -473,10 +341,6 @@ function initializeGoogleTag() {
     }
 
 
-    /*
-    Create Google Tag script.
-    */
-
     const script =
         document.createElement("script");
 
@@ -491,10 +355,6 @@ function initializeGoogleTag() {
 
     document.head.appendChild(script);
 
-
-    /*
-    Google dataLayer
-    */
 
     window.dataLayer =
         window.dataLayer || [];
@@ -531,25 +391,13 @@ function initializeGoogleTag() {
 }
 
 
-
 /* =======================================================
-   6. COUNTRY DETECTION
+   7. COUNTRY DETECTION
    ======================================================= */
-
-
-/*
-Detect visitor country.
-
-If detection fails, the system will still work.
-
-It will simply use the GLOBAL CPA offer.
-*/
 
 async function detectVisitorCountry() {
 
-
     try {
-
 
         const response =
             await fetch(
@@ -577,20 +425,10 @@ async function detectVisitorCountry() {
             await response.json();
 
 
-        /*
-        ipapi returns country_code such as:
-
-        NG
-        US
-        GB
-        CA
-        */
-
         if (
             data &&
             data.country_code
         ) {
-
 
             visitorCountry =
                 data.country_code
@@ -602,14 +440,11 @@ async function detectVisitorCountry() {
                 visitorCountry
             );
 
-
         }
-
 
     }
 
     catch(error) {
-
 
         console.warn(
             "Country detection unavailable.",
@@ -619,45 +454,25 @@ async function detectVisitorCountry() {
 
         visitorCountry = null;
 
-
     }
 
     finally {
 
-
         countryDetectionComplete = true;
-
 
     }
 
 }
 
 
-
 /* =======================================================
-   7. CPA OFFER ROUTER
+   8. CPA OFFER ROUTER
    ======================================================= */
-
-
-/*
-Determine which CPA offer should be used.
-
-Priority:
-
-COUNTRY OFFER
-       ↓
-GLOBAL OFFER
-       ↓
-FALLBACK OFFER
-*/
 
 function getCPAOffer() {
 
-
     /*
-    ---------------------------------------------
     COUNTRY-SPECIFIC OFFER
-    ---------------------------------------------
     */
 
     if (
@@ -665,18 +480,14 @@ function getCPAOffer() {
         CPA_OFFERS[visitorCountry]
     ) {
 
-
         const countryOffer =
             CPA_OFFERS[visitorCountry];
 
 
         if (
             countryOffer &&
-            !countryOffer.includes(
-                "YOUR-"
-            )
+            !countryOffer.includes("YOUR-")
         ) {
-
 
             console.log(
                 "Using country-specific CPA offer:",
@@ -686,25 +497,19 @@ function getCPAOffer() {
 
             return countryOffer;
 
-
         }
 
     }
 
 
     /*
-    ---------------------------------------------
     GLOBAL OFFER
-    ---------------------------------------------
     */
 
     if (
         CPA_OFFERS.GLOBAL &&
-        !CPA_OFFERS.GLOBAL.includes(
-            "YOUR-"
-        )
+        !CPA_OFFERS.GLOBAL.includes("YOUR-")
     ) {
-
 
         console.log(
             "Using global CPA offer."
@@ -713,23 +518,17 @@ function getCPAOffer() {
 
         return CPA_OFFERS.GLOBAL;
 
-
     }
 
 
     /*
-    ---------------------------------------------
     FALLBACK OFFER
-    ---------------------------------------------
     */
 
     if (
         CPA_OFFERS.FALLBACK &&
-        !CPA_OFFERS.FALLBACK.includes(
-            "YOUR-"
-        )
+        !CPA_OFFERS.FALLBACK.includes("YOUR-")
     ) {
-
 
         console.log(
             "Using fallback CPA offer."
@@ -738,15 +537,8 @@ function getCPAOffer() {
 
         return CPA_OFFERS.FALLBACK;
 
-
     }
 
-
-    /*
-    ---------------------------------------------
-    NO OFFER CONFIGURED
-    ---------------------------------------------
-    */
 
     console.error(
         "No CPA offer has been configured."
@@ -758,14 +550,86 @@ function getCPAOffer() {
 }
 
 
-
 /* =======================================================
-   8. EMAIL VALIDATION
+   9. ADD CLICK ID TO CPA OFFER
    ======================================================= */
 
+function buildCPAOfferUrl(offer) {
+
+    if (!offer) {
+
+        return null;
+
+    }
+
+
+    /*
+    Always use the current global click ID.
+    */
+
+    const clickId =
+        window.visitorClickId;
+
+
+    if (!clickId) {
+
+        console.warn(
+            "No visitor click ID available."
+        );
+
+
+        return offer;
+
+    }
+
+
+    try {
+
+        const url =
+            new URL(offer);
+
+
+        /*
+        Send our click ID to OGAds/CPA network
+        using aff_sub.
+        */
+
+        url.searchParams.set(
+            "aff_sub",
+            clickId
+        );
+
+
+        console.log(
+            "CPA tracking URL:",
+            url.toString()
+        );
+
+
+        return url.toString();
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Unable to build CPA offer URL:",
+            error
+        );
+
+
+        return offer;
+
+    }
+
+}
+
+
+/* =======================================================
+   10. EMAIL VALIDATION
+   ======================================================= */
 
 function isValidEmail(email) {
-
 
     const emailPattern =
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -778,30 +642,13 @@ function isValidEmail(email) {
 }
 
 
-
 /* =======================================================
-   9. SILENT GOOGLE FORM SUBMISSION
+   11. SILENT GOOGLE FORM SUBMISSION
    ======================================================= */
-
-
-/*
-Submit email silently to Google Forms.
-
-The visitor does NOT leave the landing page.
-
-The request is sent using no-cors because Google Forms
-does not provide normal cross-origin AJAX responses.
-*/
 
 async function submitEmailToGoogleForm(
     email
 ) {
-
-
-    /*
-    Don't attempt submission if Google Form
-    hasn't been configured yet.
-    */
 
     if (
         GOOGLE_FORM_ACTION.includes(
@@ -811,7 +658,6 @@ async function submitEmailToGoogleForm(
             "YOUR_EMAIL_ENTRY_ID"
         )
     ) {
-
 
         console.log(
             "Google Form is not configured yet."
@@ -824,7 +670,6 @@ async function submitEmailToGoogleForm(
 
 
     try {
-
 
         const formData =
             new FormData();
@@ -853,11 +698,9 @@ async function submitEmailToGoogleForm(
 
         return true;
 
-
     }
 
     catch(error) {
-
 
         console.warn(
             "Google Form submission failed.",
@@ -872,22 +715,18 @@ async function submitEmailToGoogleForm(
 }
 
 
-
 /* =======================================================
-   10. FACEBOOK EVENTS
+   12. FACEBOOK EVENTS
    ======================================================= */
-
 
 function trackFacebookEvent(
     eventName,
     parameters = {}
 ) {
 
-
     if (
         typeof window.fbq === "function"
     ) {
-
 
         window.fbq(
             "track",
@@ -901,19 +740,16 @@ function trackFacebookEvent(
             eventName
         );
 
-
     }
 
 }
 
 
-
-/*
-Track visitor clicking Download.
-*/
+/* =======================================================
+   13. CONTENT VIEW TRACKING
+   ======================================================= */
 
 function trackPreviewClick() {
-
 
     trackFacebookEvent(
         "ViewContent",
@@ -924,14 +760,9 @@ function trackPreviewClick() {
     );
 
 
-    /*
-    Google event
-    */
-
     if (
         typeof window.gtag === "function"
     ) {
-
 
         window.gtag(
             "event",
@@ -942,25 +773,20 @@ function trackPreviewClick() {
             }
         );
 
-
     }
 
 }
 
 
-
 /* =======================================================
-   11. GOOGLE ADS CONVERSION
+   14. GOOGLE ADS CONVERSION
    ======================================================= */
 
-
 function trackGoogleConversion() {
-
 
     if (
         typeof window.gtag !== "function"
     ) {
-
 
         console.log(
             "Google conversion not available."
@@ -978,7 +804,6 @@ function trackGoogleConversion() {
         "AW-XXXXXXXXXXX"
     ) {
 
-
         return;
 
     }
@@ -989,7 +814,6 @@ function trackGoogleConversion() {
         GOOGLE_CONVERSION_LABEL ===
         "YOUR_CONVERSION_LABEL"
     ) {
-
 
         return;
 
@@ -1015,25 +839,14 @@ function trackGoogleConversion() {
 }
 
 
-
 /* =======================================================
-   12. MAIN UNLOCK FUNCTION
+   15. MAIN UNLOCK FUNCTION
    ======================================================= */
-
 
 async function handleUnlock(event) {
 
-
-    /*
-    Stop normal form submission.
-    */
-
     event.preventDefault();
 
-
-    /*
-    Get email.
-    */
 
     const emailInput =
         document.getElementById(
@@ -1053,28 +866,38 @@ async function handleUnlock(event) {
         );
 
 
+    if (!emailInput || !button) {
+
+        console.error(
+            "Required form elements were not found."
+        );
+
+        return;
+
+    }
+
+
     const email =
         emailInput.value.trim();
 
 
-
     /*
-    ---------------------------------------------
     VALIDATE EMAIL
-    ---------------------------------------------
     */
 
     if (
         !isValidEmail(email)
     ) {
 
+        if (message) {
 
-        message.textContent =
-            "Please enter a valid email address.";
+            message.textContent =
+                "Please enter a valid email address.";
 
+            message.className =
+                "form-message error";
 
-        message.className =
-            "form-message error";
+        }
 
 
         emailInput.focus();
@@ -1085,11 +908,8 @@ async function handleUnlock(event) {
     }
 
 
-
     /*
-    ---------------------------------------------
     DISABLE BUTTON
-    ---------------------------------------------
     */
 
     button.disabled = true;
@@ -1099,16 +919,34 @@ async function handleUnlock(event) {
         "Preparing your access...";
 
 
+    if (message) {
 
-    message.textContent =
-        "";
+        message.textContent =
+            "We are preparing your download, wait .......";
 
+        message.className =
+            "form-message";
+
+    }
 
 
     /*
-    ---------------------------------------------
-    SILENT EMAIL COLLECTION
-    ---------------------------------------------
+    -------------------------------------------------------
+    MAKE SURE CLICK ID EXISTS
+    -------------------------------------------------------
+    */
+
+    if (!clickIdReady) {
+
+        await initializeClickId();
+
+    }
+
+
+    /*
+    -------------------------------------------------------
+    EMAIL COLLECTION
+    -------------------------------------------------------
     */
 
     await submitEmailToGoogleForm(
@@ -1116,11 +954,10 @@ async function handleUnlock(event) {
     );
 
 
-
     /*
-    ---------------------------------------------
-    FACEBOOK LEAD EVENT
-    ---------------------------------------------
+    -------------------------------------------------------
+    FACEBOOK LEAD
+    -------------------------------------------------------
     */
 
     trackFacebookEvent(
@@ -1132,43 +969,54 @@ async function handleUnlock(event) {
     );
 
 
-
     /*
-    ---------------------------------------------
+    -------------------------------------------------------
     GOOGLE ADS CONVERSION
-    ---------------------------------------------
+    -------------------------------------------------------
     */
 
     trackGoogleConversion();
 
 
-
     /*
-    ---------------------------------------------
-    GET CPA OFFER
-    ---------------------------------------------
+    -------------------------------------------------------
+    GET BASE CPA OFFER
+    -------------------------------------------------------
     */
 
-    const offer =
+    const baseOffer =
         getCPAOffer();
 
 
+    /*
+    -------------------------------------------------------
+    BUILD TRACKED CPA URL
+    -------------------------------------------------------
+    */
+
+    const offer =
+        buildCPAOfferUrl(
+            baseOffer
+        );
+
 
     /*
-    ---------------------------------------------
+    -------------------------------------------------------
     NO OFFER
-    ---------------------------------------------
+    -------------------------------------------------------
     */
 
     if (!offer) {
 
+        if (message) {
 
-        message.textContent =
-            "The download is temporarily unavailable. Please try again later.";
+            message.textContent =
+                "The download is temporarily unavailable. Please try again later.";
 
+            message.className =
+                "form-message error";
 
-        message.className =
-            "form-message error";
+        }
 
 
         button.disabled = false;
@@ -1183,41 +1031,34 @@ async function handleUnlock(event) {
     }
 
 
-
     /*
-    ---------------------------------------------
-    SMALL DELAY
-    ---------------------------------------------
+    -------------------------------------------------------
+    REDIRECT
+    -------------------------------------------------------
 
-    Gives tracking events a moment to fire
-    before redirecting.
+    Small delay gives tracking systems time to fire.
     */
 
     setTimeout(
         function () {
 
-
             window.location.href =
                 offer;
 
-
         },
-        700
+        1200
     );
 
 }
 
 
-
 /* =======================================================
-   13. PAGE INITIALIZATION
+   16. PAGE INITIALIZATION
    ======================================================= */
-
 
 document.addEventListener(
     "DOMContentLoaded",
-    function () {
-
+    async function () {
 
         /*
         Initialize tracking.
@@ -1225,35 +1066,26 @@ document.addEventListener(
 
         initializeFacebookPixel();
 
-
         initializeGoogleTag();
 
 
-        
-        /* Initialize Click ID
+        /*
+        Initialize visitor click ID.
         */
 
-
-        initializeClickId();
-
-        
-        
+        await initializeClickId();
 
 
         /*
-        Start country detection.
-
-        We do NOT block the page while
-        the country API is loading.
+        Detect visitor country.
         */
 
         detectVisitorCountry();
 
 
         console.log(
-            "Toolerkit CPA landing page initialized."
+            "ToolerKitDigest CPA landing page initialized."
         );
-
 
     }
 );
