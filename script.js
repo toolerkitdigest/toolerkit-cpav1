@@ -154,10 +154,10 @@ GOOGLE FORM
 */
 
 const GOOGLE_FORM_ACTION =
-    "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse";
+    "https://docs.google.com/forms/d/e/1FAIpQLSc5gNrGBTdVsEcBbxHNEQUsgmKoWKEk5bz1YUg5S_5m2A71DA/formResponse";
 
 const GOOGLE_FORM_EMAIL_ENTRY =
-    "entry.YOUR_EMAIL_ENTRY_ID";
+    "ententry.339758370";
 
 
 /*
@@ -176,25 +176,25 @@ Priority:
 const CPA_OFFERS = {
 
     NG:
-        "https://YOUR-NIGERIA-CPA-OFFER.com",
+        "https://appsave.online/cl/i/qn16l6",
 
     US:
-        "https://YOUR-USA-CPA-OFFER.com",
+        "https://lockerpreview.com/cl/i/6nnroj",
 
-    GB:
-        "https://YOUR-UK-CPA-OFFER.com",
+    UK:
+        "https://lockerpreview.com/cl/i/m5n38n",
 
     CA:
-        "https://YOUR-CANADA-CPA-OFFER.com",
+        "https://https://appsave.online/cl/i/pq3rl2",
 
     AU:
-        "https://YOUR-AUSTRALIA-CPA-OFFER.com",
+        "https://appsave.space/cl/i/o4me74",
 
     ZA:
-        "https://YOUR-SOUTH-AFRICA-CPA-OFFER.com",
+        "https://lockerpreview.com/cl/i/34jl9w",
 
-    GLOBAL:
-        "https://YOUR-GLOBAL-CPA-OFFER.com",
+    Brazil:
+        "https://appsave.space/cl/i/1xj3w1",
 
     FALLBACK:
         "https://YOUR-FALLBACK-CPA-OFFER.com"
@@ -1029,7 +1029,6 @@ async function handleUnlock(event) {
         return;
 
     }
-
 
     /*
     -------------------------------------------------------
