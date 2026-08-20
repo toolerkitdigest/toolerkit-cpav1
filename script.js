@@ -1,126 +1,25 @@
-/* =======================================================
-   TOOLERKITDIGEST CPA LANDING PAGE
-   CLICK ID + TRACKING + EMAIL + GEO CPA ROUTING
-   ======================================================= */
-
-
-/* =======================================================
-   1. VISITOR CLICK ID
-   ======================================================= */
-
-let visitorClickId = null;
-
-let clickIdReady = false;
-
-
 /*
-Generate/retrieve a unique CPA click ID.
+=========================================================
+TOOLERKITDIGEST
+SMART LINK LANDING PAGE
+=========================================================
+
+FLOW:
+
+1. FAQ accordion
+2. Tracking initialization
+3. Email validation
+4. Silent Google Form submission
+5. Facebook Pixel event
+6. Google Ads conversion event
+7. Redirect visitor to Smart Link
+
+=========================================================
 */
 
-async function initializeClickId() {
-
-    try {
-
-        /*
-        Check whether this visitor already has
-        a click ID stored in the browser.
-        */
-
-        visitorClickId =
-            localStorage.getItem("tdr_click_id");
-
-
-        /*
-        If there is no existing ID,
-        request a new one from Netlify.
-        */
-
-        if (!visitorClickId) {
-
-            const response =
-                await fetch("/api/track-click", {
-                    method: "GET",
-                    cache: "no-store"
-                });
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Unable to generate click ID."
-                );
-
-            }
-
-
-            const data =
-                await response.json();
-
-
-            if (
-                data &&
-                data.success &&
-                data.click_id
-            ) {
-
-                visitorClickId =
-                    data.click_id;
-
-
-                /*
-                Store click ID locally.
-                */
-
-                localStorage.setItem(
-                    "tdr_click_id",
-                    visitorClickId
-                );
-
-            }
-
-        }
-
-
-        /*
-        Make the click ID globally available.
-        */
-
-        window.visitorClickId =
-            visitorClickId;
-
-
-        clickIdReady = true;
-
-
-        console.log(
-            "Visitor click ID:",
-            visitorClickId
-        );
-
-
-    }
-
-    catch(error) {
-
-        console.error(
-            "Click ID initialization failed:",
-            error
-        );
-
-
-        visitorClickId = null;
-
-        window.visitorClickId = null;
-
-        clickIdReady = false;
-
-    }
-
-}
-
 
 /* =======================================================
-   2. CONFIGURATION
+   1. CONFIGURATION
    ======================================================= */
 
 
@@ -154,7 +53,7 @@ GOOGLE FORM
 */
 
 const GOOGLE_FORM_ACTION =
-    "https://docs.google.com/forms/d/e/1FAIpQLScdMB3gFQPSDkiC7_WpUMbSO49GoiKNbMeiZZ0aO9VgBQPYCg/formResponse"
+    "https://docs.google.com/forms/d/e/1FAIpQLScdMB3gFQPSDkiC7_WpUMbSO49GoiKNbMeiZZ0aO9VgBQPYCg/formResponse";
 
 const GOOGLE_FORM_EMAIL_ENTRY =
     "entry.1038039629";
@@ -162,73 +61,63 @@ const GOOGLE_FORM_EMAIL_ENTRY =
 
 /*
 ---------------------------------------------------------
-CPA OFFERS
+SMART LINK
 ---------------------------------------------------------
 
-Priority:
+This Smart Link automatically handles:
 
-1. Country-specific offer
-2. Global offer
-3. Fallback offer
+- Available offers
+- Visitor matching
+- Offer completion
+- Successful conversion redirect
+- Fallback URL
+
 ---------------------------------------------------------
 */
 
-const CPA_OFFERS = {
+const SMART_LINK =
+    "https://appsave.store/sl/n1o66";
 
-    Global:
-        "https://appsave.store/sl/n1o66",
-   NGN:
-      "https://appsave.space/sl/1zy8g",
-
-    
-    FALLBACK:
-        "https://toolerkitdigest.top"
-
-};
 
 
 /* =======================================================
-   3. COUNTRY DETECTION
+   2. FAQ ACCORDION
    ======================================================= */
 
-const GEO_API =
-    "https://ipapi.co/json/";
-
-
-let visitorCountry = null;
-
-let countryDetectionComplete = false;
-
-
-/* =======================================================
-   4. FAQ ACCORDION
-   ======================================================= */
 
 document
     .querySelectorAll(".question")
     .forEach(item => {
 
-        item.onclick = function () {
 
-            const answer =
-                this.nextElementSibling;
+        item.onclick =
+            function () {
 
 
-            answer.style.display =
-                answer.style.display === "block"
-                    ? "none"
-                    : "block";
+                const answer =
+                    this.nextElementSibling;
 
-        };
+
+                answer.style.display =
+                    answer.style.display === "block"
+                        ? "none"
+                        : "block";
+
+
+            };
+
 
     });
 
 
+
 /* =======================================================
-   5. FACEBOOK PIXEL
+   3. FACEBOOK PIXEL
    ======================================================= */
 
+
 function initializeFacebookPixel() {
+
 
     if (
         !FACEBOOK_PIXEL_ID ||
@@ -236,11 +125,14 @@ function initializeFacebookPixel() {
         "YOUR_FACEBOOK_PIXEL_ID"
     ) {
 
+
         console.log(
             "Facebook Pixel is not configured yet."
         );
 
+
         return;
+
 
     }
 
@@ -248,25 +140,37 @@ function initializeFacebookPixel() {
     !function(f,b,e,v,n,t,s)
     {
 
+
         if(f.fbq)return;
+
 
         n=f.fbq=function(){
 
-            n.callMethod ?
-            n.callMethod.apply(n,arguments) :
-            n.queue.push(arguments);
+
+            n.callMethod
+                ? n.callMethod.apply(
+                    n,
+                    arguments
+                )
+                : n.queue.push(
+                    arguments
+                );
+
 
         };
 
+
         if(!f._fbq)f._fbq=n;
+
 
         n.push=n;
 
         n.loaded=!0;
 
-        n.version="2.0";
+        n.version='2.0';
 
         n.queue=[];
+
 
         t=b.createElement(e);
 
@@ -274,27 +178,32 @@ function initializeFacebookPixel() {
 
         t.src=v;
 
+
         s=b.getElementsByTagName(e)[0];
 
-        s.parentNode.insertBefore(t,s);
+        s.parentNode.insertBefore(
+            t,
+            s
+        );
+
 
     }(
         window,
         document,
-        "script",
-        "https://connect.facebook.net/en_US/fbevents.js"
+        'script',
+        'https://connect.facebook.net/en_US/fbevents.js'
     );
 
 
     window.fbq(
-        "init",
+        'init',
         FACEBOOK_PIXEL_ID
     );
 
 
     window.fbq(
-        "track",
-        "PageView"
+        'track',
+        'PageView'
     );
 
 
@@ -302,14 +211,18 @@ function initializeFacebookPixel() {
         "Facebook Pixel initialized."
     );
 
+
 }
 
 
+
 /* =======================================================
-   6. GOOGLE TAG
+   4. GOOGLE TAG
    ======================================================= */
 
+
 function initializeGoogleTag() {
+
 
     if (
         !GOOGLE_ADS_ID ||
@@ -317,11 +230,513 @@ function initializeGoogleTag() {
         "AW-XXXXXXXXXXX"
     ) {
 
+
         console.log(
             "Google Ads tag is not configured yet."
         );
 
+
         return;
+
+
+    }
+
+
+    const script =
+        document.createElement(
+            "script"
+        );
+
+
+    script.async =
+        true;
+
+
+    script.src =
+        "https://www.googletagmanager.com/gtag/js?id="
+        + GOOGLE_ADS_ID;
+
+
+    document.head.appendChild(
+        script
+    );
+
+
+    window.dataLayer =
+        window.dataLayer || [];
+
+
+    function gtag() {
+
+
+        window.dataLayer.push(
+            arguments
+        );
+
+
+    }
+
+
+    window.gtag =
+        gtag;
+
+
+    gtag(
+        "js",
+        new Date()
+    );
+
+
+    gtag(
+        "config",
+        GOOGLE_ADS_ID
+    );
+
+
+    console.log(
+        "Google Ads tag initialized."
+    );
+
+
+}
+
+
+
+/* =======================================================
+   5. EMAIL VALIDATION
+   ======================================================= */
+
+
+function isValidEmail(
+    email
+) {
+
+
+    const emailPattern =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+    return emailPattern.test(
+        email
+    );
+
+
+}
+
+
+
+/* =======================================================
+   6. SILENT GOOGLE FORM SUBMISSION
+   ======================================================= */
+
+
+async function submitEmailToGoogleForm(
+    email
+) {
+
+
+    /*
+    Don't attempt submission if the
+    Google Form is not configured.
+    */
+
+    if (
+        GOOGLE_FORM_ACTION.includes(
+            "YOUR_FORM_ID"
+        ) ||
+        GOOGLE_FORM_EMAIL_ENTRY.includes(
+            "YOUR_EMAIL_ENTRY_ID"
+        )
+    ) {
+
+
+        console.log(
+            "Google Form is not configured yet."
+        );
+
+
+        return false;
+
+
+    }
+
+
+    try {
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            GOOGLE_FORM_EMAIL_ENTRY,
+            email
+        );
+
+
+        await fetch(
+            GOOGLE_FORM_ACTION,
+            {
+
+
+                method:
+                    "POST",
+
+
+                mode:
+                    "no-cors",
+
+
+                body:
+                    formData
+
+
+            }
+        );
+
+
+        console.log(
+            "Email submitted to Google Form."
+        );
+
+
+        return true;
+
+
+    }
+
+    catch(error) {
+
+
+        console.warn(
+            "Google Form submission failed.",
+            error
+        );
+
+
+        return false;
+
+
+    }
+
+
+}
+
+
+
+/* =======================================================
+   7. FACEBOOK EVENT TRACKING
+   ======================================================= */
+
+
+function trackFacebookEvent(
+    eventName,
+    parameters = {}
+) {
+
+
+    if (
+        typeof window.fbq ===
+        "function"
+    ) {
+
+
+        window.fbq(
+            "track",
+            eventName,
+            parameters
+        );
+
+
+        console.log(
+            "Facebook event:",
+            eventName
+        );
+
+
+    }
+
+
+}
+
+
+
+/* =======================================================
+   8. GOOGLE ADS CONVERSION
+   ======================================================= */
+
+
+function trackGoogleConversion() {
+
+
+    if (
+        typeof window.gtag !==
+        "function"
+    ) {
+
+
+        console.log(
+            "Google conversion not available."
+        );
+
+
+        return;
+
+
+    }
+
+
+    if (
+        !GOOGLE_ADS_ID ||
+        GOOGLE_ADS_ID ===
+        "AW-XXXXXXXXXXX"
+    ) {
+
+
+        return;
+
+
+    }
+
+
+    if (
+        !GOOGLE_CONVERSION_LABEL ||
+        GOOGLE_CONVERSION_LABEL ===
+        "YOUR_CONVERSION_LABEL"
+    ) {
+
+
+        return;
+
+
+    }
+
+
+    window.gtag(
+        "event",
+        "conversion",
+        {
+
+
+            send_to:
+                GOOGLE_ADS_ID +
+                "/" +
+                GOOGLE_CONVERSION_LABEL
+
+
+        }
+    );
+
+
+    console.log(
+        "Google Ads conversion fired."
+    );
+
+
+}
+
+
+
+/* =======================================================
+   9. MAIN UNLOCK FUNCTION
+   ======================================================= */
+
+
+async function handleUnlock(
+    event
+) {
+
+
+    /*
+    Stop normal form submission.
+    */
+
+    event.preventDefault();
+
+
+    /*
+    Get page elements.
+    */
+
+    const emailInput =
+        document.getElementById(
+            "visitorEmail"
+        );
+
+
+    const button =
+        document.getElementById(
+            "unlockButton"
+        );
+
+
+    const message =
+        document.getElementById(
+            "formMessage"
+        );
+
+
+    const email =
+        emailInput.value.trim();
+
+
+
+    /*
+    ---------------------------------------------
+    VALIDATE EMAIL
+    ---------------------------------------------
+    */
+
+    if (
+        !isValidEmail(
+            email
+        )
+    ) {
+
+
+        message.textContent =
+            "Please enter a valid email address.";
+
+
+        message.className =
+            "form-message error";
+
+
+        emailInput.focus();
+
+
+        return;
+
+
+    }
+
+
+
+    /*
+    ---------------------------------------------
+    DISABLE BUTTON
+    ---------------------------------------------
+    */
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "Preparing your access...";
+
+
+    message.textContent =
+        "";
+
+
+
+    /*
+    ---------------------------------------------
+    SILENT EMAIL COLLECTION
+    ---------------------------------------------
+    */
+
+    await submitEmailToGoogleForm(
+        email
+    );
+
+
+
+    /*
+    ---------------------------------------------
+    FACEBOOK LEAD EVENT
+    ---------------------------------------------
+    */
+
+    trackFacebookEvent(
+        "Lead",
+        {
+
+
+            content_name:
+                "Free Creator Resource"
+
+
+        }
+    );
+
+
+
+    /*
+    ---------------------------------------------
+    GOOGLE ADS CONVERSION EVENT
+    ---------------------------------------------
+    */
+
+    trackGoogleConversion();
+
+
+
+    /*
+    ---------------------------------------------
+    REDIRECT TO SMART LINK
+    ---------------------------------------------
+
+    The Smart Link handles:
+
+    - Offer selection
+    - Available offers
+    - Offer completion
+    - Successful conversion
+    - Redirect to thank-you.html
+    - Fallback URL
+    */
+
+    setTimeout(
+        function () {
+
+
+            window.location.href =
+                SMART_LINK;
+
+
+        },
+        700
+    );
+
+
+}
+
+
+
+/* =======================================================
+   10. PAGE INITIALIZATION
+   ======================================================= */
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /*
+        Initialize Facebook Pixel.
+        */
+
+        initializeFacebookPixel();
+
+
+
+        /*
+        Initialize Google Tag.
+        */
+
+        initializeGoogleTag();
+
+
+        console.log(
+            "ToolerKitDigest Smart Link landing page initialized."
+        );
+
+
+    }
+);        return;
 
     }
 
