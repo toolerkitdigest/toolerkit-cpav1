@@ -154,10 +154,10 @@ GOOGLE FORM
 */
 
 const GOOGLE_FORM_ACTION =
-    "https://docs.google.com/forms/d/e/1FAIpQLSc5gNrGBTdVsEcBbxHNEQUsgmKoWKEk5bz1YUg5S_5m2A71DA/formResponse";
+    "https://docs.google.com/forms/d/e/1FAIpQLScdMB3gFQPSDkiC7_WpUMbSO49GoiKNbMeiZZ0aO9VgBQPYCg/formResponse"
 
 const GOOGLE_FORM_EMAIL_ENTRY =
-    "ententry.339758370";
+    "entry.1038039629";
 
 
 /*
