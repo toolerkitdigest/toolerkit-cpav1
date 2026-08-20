@@ -704,7 +704,6 @@ async function handleUnlock(
 }
 
 
-
 /* =======================================================
    10. PAGE INITIALIZATION
    ======================================================= */
@@ -722,12 +721,48 @@ document.addEventListener(
         initializeFacebookPixel();
 
 
-
         /*
         Initialize Google Tag.
         */
 
         initializeGoogleTag();
+
+
+        /*
+        Connect the form to handleUnlock().
+        */
+
+        const unlockForm =
+            document.getElementById(
+                "unlockForm"
+            );
+
+
+        if (
+            unlockForm
+        ) {
+
+
+            unlockForm.addEventListener(
+                "submit",
+                handleUnlock
+            );
+
+
+            console.log(
+                "Unlock form connected successfully."
+            );
+
+
+        } else {
+
+
+            console.error(
+                "Unlock form was not found."
+            );
+
+
+        }
 
 
         console.log(
@@ -736,59 +771,7 @@ document.addEventListener(
 
 
     }
-);        return;
-
-    }
-
-
-    const script =
-        document.createElement("script");
-
-
-    script.async = true;
-
-
-    script.src =
-        "https://www.googletagmanager.com/gtag/js?id="
-        + GOOGLE_ADS_ID;
-
-
-    document.head.appendChild(script);
-
-
-    window.dataLayer =
-        window.dataLayer || [];
-
-
-    function gtag() {
-
-        window.dataLayer.push(
-            arguments
-        );
-
-    }
-
-
-    window.gtag = gtag;
-
-
-    gtag(
-        "js",
-        new Date()
-    );
-
-
-    gtag(
-        "config",
-        GOOGLE_ADS_ID
-    );
-
-
-    console.log(
-        "Google Ads tag initialized."
-    );
-
-}
+);
 
 
 /* =======================================================
