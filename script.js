@@ -177,6 +177,8 @@ const CPA_OFFERS = {
 
     Global:
         "https://appsave.store/sl/n1o66",
+   NGN:
+      "https://appsave.space/sl/1zy8g",
 
     
     FALLBACK:
