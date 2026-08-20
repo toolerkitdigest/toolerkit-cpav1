@@ -175,29 +175,12 @@ Priority:
 
 const CPA_OFFERS = {
 
-    NG:
-        "https://appsave.online/cl/i/qn16l6",
+    Global:
+        "https://appsave.store/sl/n1o66",
 
-    US:
-        "https://lockerpreview.com/cl/i/6nnroj",
-
-    UK:
-        "https://lockerpreview.com/cl/i/m5n38n",
-
-    CA:
-        "https://https://appsave.online/cl/i/pq3rl2",
-
-    AU:
-        "https://appsave.space/cl/i/o4me74",
-
-    ZA:
-        "https://lockerpreview.com/cl/i/34jl9w",
-
-    Brazil:
-        "https://appsave.space/cl/i/1xj3w1",
-
+    
     FALLBACK:
-        "https://YOUR-FALLBACK-CPA-OFFER.com"
+        "https://toolerkitdigest.top"
 
 };
 
