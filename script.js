@@ -537,14 +537,138 @@ function trackGoogleConversion() {
 
 
 
-/* =======================================================
-   9. MAIN UNLOCK FUNCTION
-   ======================================================= */
+async function handleUnlock(event) {
+
+    /*
+    Stop normal form submission.
+    */
+
+    event.preventDefault();
 
 
-async function handleUnlock(
-    event
-) {
+    /*
+    Get page elements.
+    */
+
+    const emailInput =
+        document.getElementById(
+            "visitorEmail"
+        );
+
+
+    const button =
+        document.getElementById(
+            "unlockButton"
+        );
+
+
+    const message =
+        document.getElementById(
+            "formMessage"
+        );
+
+
+    const email =
+        emailInput.value.trim();
+
+
+    /*
+    Validate email.
+    */
+
+    if (
+        !isValidEmail(email)
+    ) {
+
+        message.textContent =
+            "Please enter a valid email address.";
+
+
+        message.className =
+            "form-message error";
+
+
+        emailInput.focus();
+
+
+        return;
+
+    }
+
+
+    /*
+    Disable button.
+    */
+
+    button.disabled = true;
+
+
+    button.textContent =
+        "Preparing your ebook...";
+
+
+    message.textContent =
+        "We are preparing your download...";
+
+
+    /*
+    Start email submission.
+
+    IMPORTANT:
+    We do NOT wait for Google Forms.
+    */
+
+    submitEmailToGoogleForm(email)
+        .catch(function (error) {
+
+            console.warn(
+                "Background email submission failed:",
+                error
+            );
+
+        });
+
+
+    /*
+    Facebook Lead event.
+    */
+
+    trackFacebookEvent(
+        "Lead",
+        {
+
+            content_name:
+                "Free Creator Resource"
+
+        }
+    );
+
+
+    /*
+    Google Ads event.
+    */
+
+    trackGoogleConversion();
+
+
+    /*
+    Redirect to Smart Link.
+
+    This will happen even if Google Forms
+    is slow or unavailable.
+    */
+
+    setTimeout(
+        function () {
+
+            window.location.href =
+                SMART_LINK;
+
+        },
+        700
+    );
+
+}
 
 
     /*
