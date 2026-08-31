@@ -10,7 +10,7 @@ AI CPA OFFER
 ========================================= */
 
 const AI_CPA_OFFER =
-"https://getafilenow.com/show.php?l=0&u=820144&id=72846";
+"https://appsave.store/cl/i/ex11pk";
 
 document.addEventListener(
 "DOMContentLoaded",
