@@ -10,7 +10,7 @@ AI CPA OFFER
 ========================================= */
 
 const AI_CPA_OFFER =
-"https://ratwn.bid/cl/4d0f529f28760f93";
+"https://appsave.store/cl/i/w68831";
 
 document.addEventListener(
 "DOMContentLoaded",
