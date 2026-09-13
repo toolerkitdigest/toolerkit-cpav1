@@ -1,187 +1,57 @@
-/* =========================================================
-   TOOLERKITDIGEST
-   HOMEPAGE JAVASCRIPT
+const OFFERS = {
+  tier1: {
+    url: 'https://your-cpa-network-tier1-link.com?sub1=',
+    ctaText: 'CLAIM TIER-1 REWARD →',
+    tierTag: 'TIER-1 VERIFIED'
+  },
+  tier2: {
+    url: 'https://your-cpa-network-tier2-link.com?sub1=',
+    ctaText: 'CLAIM REGIONAL REWARD →',
+    tierTag: 'TIER-2 VERIFIED'
+  },
+  tier3: {
+    url: 'https://your-smartlink-global.com?sub1=',
+    ctaText: 'CONTINUE ACCESS →',
+    tierTag: 'GLOBAL ACCESS'
+  }
+};
 
-   This homepage does NOT handle:
-   - Email collection
-   - Google Forms
-   - CPA offers
-   - CPA redirects
-   - CPA_CONFIG
-   - Unlock protection
+const TIER1_COUNTRIES = ['US', 'GB', 'CA', 'AU', 'NZ'];
+const TIER2_COUNTRIES = ['BR', 'PL', 'ZA', 'MX', 'AR', 'CO'];
 
-   Those functions belong to the individual
-   preview pages.
-========================================================= */
+document.addEventListener('DOMContentLoaded', async () => {
+  // Device OS check simulation / detection
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+  const osText = isIOS ? 'iOS Device Authenticated' : isAndroid ? 'Android Device Authenticated' : 'Browser Session Verified';
+  document.getElementById('device-os-text').textContent = osText;
+  document.getElementById('status-icon-1').textContent = '✅';
 
-
-/* =========================================================
-   1. EXPLORE FREE VAULTS
-========================================================= */
-
-function exploreFreeVault() {
-
-    const vaultSection = document.getElementById("vaults");
-
-    if (!vaultSection) {
-        console.warn("Vault section not found.");
-        return;
+  // Geo lookup
+  let countryCode = 'GLOBAL';
+  try {
+    const res = await fetch('https://ipapi.co/json/');
+    if (res.ok) {
+      const data = await res.json();
+      if (data.country_code) countryCode = data.country_code.toUpperCase();
     }
+  } catch (e) {
+    console.warn('Fallback geo mode');
+  }
 
-    vaultSection.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
-}
+  let tier = 'tier3';
+  if (TIER1_COUNTRIES.includes(countryCode)) tier = 'tier1';
+  else if (TIER2_COUNTRIES.includes(countryCode)) tier = 'tier2';
 
+  const cfg = OFFERS[tier];
+  document.getElementById('region-badge').textContent = `${cfg.tierTag} (${countryCode})`;
+  
+  const ctaBtn = document.getElementById('cta-button');
+  const btnText = ctaBtn.querySelector('.btn-text');
+  btnText.textContent = cfg.ctaText;
+  ctaBtn.href = `${cfg.url}${countryCode.toLowerCase()}`;
 
-/* =========================================================
-   2. MOBILE NAVIGATION
-========================================================= */
-
-function initializeMobileNavigation() {
-
-    const menuToggle =
-        document.getElementById("menuToggle");
-
-    const navLinks =
-        document.getElementById("navLinks");
-
-
-    /* -----------------------------------------
-       Make sure navigation elements exist
-    ----------------------------------------- */
-
-    if (!menuToggle || !navLinks) {
-        return;
-    }
-
-
-    /* -----------------------------------------
-       Open / close mobile menu
-    ----------------------------------------- */
-
-    menuToggle.addEventListener("click", function () {
-
-        navLinks.classList.toggle("active");
-
-        const isOpen =
-            navLinks.classList.contains("active");
-
-
-        menuToggle.setAttribute(
-            "aria-expanded",
-            isOpen ? "true" : "false"
-        );
-
-
-        menuToggle.setAttribute(
-            "aria-label",
-            isOpen
-                ? "Close navigation menu"
-                : "Open navigation menu"
-        );
-
-    });
-
-
-    /* -----------------------------------------
-       Close menu after clicking a link
-    ----------------------------------------- */
-
-    const links =
-        navLinks.querySelectorAll("a");
-
-
-    links.forEach(function (link) {
-
-        link.addEventListener("click", function () {
-
-            navLinks.classList.remove("active");
-
-            menuToggle.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-            menuToggle.setAttribute(
-                "aria-label",
-                "Open navigation menu"
-            );
-
-        });
-
-    });
-
-}
-
-
-/* =========================================================
-   3. CLOSE MOBILE MENU WHEN CLICKING OUTSIDE
-========================================================= */
-
-function initializeOutsideMenuClose() {
-
-    const menuToggle =
-        document.getElementById("menuToggle");
-
-    const navLinks =
-        document.getElementById("navLinks");
-
-
-    if (!menuToggle || !navLinks) {
-        return;
-    }
-
-
-    document.addEventListener("click", function (event) {
-
-        const clickedInsideMenu =
-            navLinks.contains(event.target);
-
-        const clickedToggle =
-            menuToggle.contains(event.target);
-
-
-        if (
-            !clickedInsideMenu &&
-            !clickedToggle
-        ) {
-
-            navLinks.classList.remove("active");
-
-            menuToggle.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-            menuToggle.setAttribute(
-                "aria-label",
-                "Open navigation menu"
-            );
-
-        }
-
-    });
-
-}
-
-
-/* =========================================================
-   4. PAGE INITIALIZATION
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        initializeMobileNavigation();
-
-        initializeOutsideMenuClose();
-
-        console.log(
-            "ToolerKitDigest homepage initialized successfully."
-        );
-
-    }
-);
+  // Telegram bot quick trigger sync (deep link format t.me/YourBotName?start=geo_code)
+  const botUsername = 'myrewardybot'; // replace with your bot
+  document.getElementById('tg-bot-link').href = `https://t.me/${botUsername}?start=${countryCode.toLowerCase()}`;
+});
