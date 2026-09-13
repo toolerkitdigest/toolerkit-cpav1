@@ -18,12 +18,12 @@ export default async function handler(req, res) {
       const userName = body.message.from.first_name || 'User';
 
       let replyText = `Hey ${userName}! Tap below to launch your regional reward allocation:`;
-      let payloadUrl = 'https://toolerkitdigest.top/';
+      let payloadUrl = 'https://toolerkitdigest.top';
 
       if (text.startsWith('/start')) {
         const payload = text.split(' ')[1] || 'global';
         replyText = `Region payload locked (**${payload.toUpperCase()}**). Tap below to claim:`;
-        payloadUrl = `https://toolerkitdigest.top//?geo=${payload}`;
+        payloadUrl = `https://toolerkitdigest.top/?geo=${payload}`;
       } else if (text === '/drop') {
         replyText = `🔥 High-EPC Tier 1/2 drop live. Tap to verify device:`;
       }
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
           parse_mode: 'Markdown',
           reply_markup: {
             inline_keyboard: [
-              [{ text: '⚡ Claim Your Free Making Money Secret Resourcess Now', url: payloadUrl }]
+              [{ text: '⚡ Claim Allocation Now', url: payloadUrl }]
             ]
           }
         }),
@@ -50,4 +50,3 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Failed processing webhook' });
   }
 }
-
