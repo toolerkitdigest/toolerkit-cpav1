@@ -1,16 +1,16 @@
 const OFFERS = {
   tier1: {
-    url: 'https://your-cpa-network-tier1-link.com?sub1=',
+    url: 'https://appcomplete.org/cl/i/34j997?sub1=',
     ctaText: 'CLAIM TIER-1 REWARD →',
     tierTag: 'TIER-1 VERIFIED'
   },
   tier2: {
-    url: 'https://your-cpa-network-tier2-link.com?sub1=',
+    url: 'https://appcomplete.org/cl/i/4o799r?sub1=',
     ctaText: 'CLAIM REGIONAL REWARD →',
     tierTag: 'TIER-2 VERIFIED'
   },
   tier3: {
-    url: 'https://your-smartlink-global.com?sub1=',
+    url: 'https://trckapp.org/cl/i/ex11pk?sub1=',
     ctaText: 'CONTINUE ACCESS →',
     tierTag: 'GLOBAL ACCESS'
   }
