@@ -18,12 +18,12 @@ export default async function handler(req, res) {
       const userName = body.message.from.first_name || 'User';
 
       let replyText = `Hey ${userName}! Tap below to launch your regional reward allocation:`;
-      let payloadUrl = 'https://www.toolerkitdigest.top';
+      let payloadUrl = 'https://toolerkit-cpav1.vercel.app/';
 
       if (text.startsWith('/start')) {
         const payload = text.split(' ')[1] || 'global';
         replyText = `Region payload locked (**${payload.toUpperCase()}**). Tap below to claim:`;
-        payloadUrl = `https://www.toolerkitdigest.top/?geo=${payload}`;
+        payloadUrl = `https://toolerkit-cpav1.vercel.app/?geo=${payload}`;
       } else if (text === '/drop') {
         replyText = `🔥 High-EPC Tier 1/2 drop live. Tap to verify device:`;
       }
