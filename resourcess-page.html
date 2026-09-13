@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creator Resource Vault | ToolerKitDigest</title>
+
+  <!-- Google Fonts matching dark mode aesthetic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #07070A;
+      --bg-secondary: #12121A;
+      --accent-primary: #6366F1;
+      --accent-secondary: #A855F7;
+      --text-main: #FFFFFF;
+      --text-muted: #94A3B8;
+      --success: #10B981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body, html {
+      width: 100%;
+      min-height: 100%;
+      height: auto;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Ambient atmosphere matching main funnel */
+    .ambient-glow {
+      position: fixed;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: 0;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .glow-1 { top: -10%; left: -20%; background: var(--accent-primary); }
+    .glow-2 { bottom: 10%; right: -20%; background: var(--accent-secondary); }
+
+    .vault-layout {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 20px 48px;
+    }
+
+    /* Top navbar integrated */
+    .site-nav {
+      background: rgba(18, 18, 26, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 12px 18px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .site-logo {
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-white { color: #FFFFFF; }
+    .logo-green { color: var(--success); }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      color: #FFFFFF;
+    }
+
+    /* Locked state security overlay */
+    .auth-gate {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 7, 10, 0.92);
+      backdrop-filter: blur(16px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.3s ease;
+    }
+
+    .gate-card {
+      background: var(--bg-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 28px 24px;
+      text-align: center;
+      max-width: 390px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .gate-icon {
+      font-size: 2.5rem;
+      margin-bottom: 14px;
+    }
+
+    .gate-card h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .gate-card p {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .btn-action-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+      color: #FFFFFF;
+      font-size: 0.95rem;
+      font-weight: 800;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-action-primary:hover {
+      transform: scale(1.02);
+      box-shadow: 0 14px 32px rgba(124, 58, 237, 0.65);
+    }
+
+    /* Ebook Cards Stack */
+    .ebook-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .ebook-card-box {
+      background: var(--bg-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      align-self: flex-start;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #E0E7FF;
+      font-size: 0.6875rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 6px;
+      letter-spacing: 1px;
+    }
+
+    .hero-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .gradient-text-social {
+      background: linear-gradient(135deg, #34D399, #10B981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-text-ai {
+      background: linear-gradient(135deg, #818CF8, #C084FC);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .vault-image-wrap {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .vault-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    /* Vault Stats Row inside cards */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: center;
+    }
+
+    .stat-item h3 {
+      font-size: 0.875rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 2px;
+    }
+
+    .stat-item p {
+      font-size: 0.625rem;
+      color: var(--text-muted);
+    }
+
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34D399;
+      font-size: 0.875rem;
+      font-weight: 800;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-download:hover {
+      background: rgba(16, 185, 129, 0.25);
+    }
+
+    /* Hidden utility for state management */
+    .unlocked-content {
+      display: none;
+    }
+
+    body.access-granted .auth-gate {
+      display: none;
+    }
+  </style>
+</head>
+<body data-vault="merged-bundle">
+
+  <!-- Ambient lighting -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- SECURITY GATEWAY (Enforces CPA completion lock) -->
+  <div class="auth-gate" id="authGate">
+    <div class="gate-card">
+      <div class="gate-icon">🔒</div>
+      <h2>Protected Resource Vault</h2>
+      <p>Complete your required CPA sponsor verification on the main funnel session first to decrypt and access your free ebook bundle.</p>
+      <button type="button" class="btn-action-primary" id="verifySessionBtn">
+        <span>Verify & Unlock Bundle</span>
+        <span>→</span>
+      </button>
+      <div style="margin-top: 14px;">
+        <a href="index.html" style="font-size: 0.75rem; color: var(--text-muted);">← Return to Funnel Home</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN VAULT WRAPPER -->
+  <div class="vault-layout">
+    
+    <!-- NAVIGATION BAR -->
+    <nav class="site-nav">
+      <a href="index.html" class="site-logo">
+        <span class="logo-white">Tooler</span><span class="logo-green">Kit</span><span class="logo-white">Digest</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="resources.html">Resources</a>
+      </div>
+    </nav>
+
+    <!-- 2 EBOOKS MERGED STACK -->
+    <main class="ebook-stack">
+      
+      <!-- EBOOK 1: $27 SOCIAL MEDIA DAILY INCOME BLUEPRINT -->
+      <article class="ebook-card-box">
+        <span class="badge-tag">CREATOR RESOURCE VAULT</span>
+        <h1 class="hero-title">
+          <span class="title-white">$27 Daily </span>
+          <span class="gradient-text-social">Income Target</span>
+        </h1>
+        <p class="hero-subtitle">
+          Step-by-step guide to making $27 daily using proven social media income strategies on your existing profiles.
+        </p>
+
+        <div class="vault-image-wrap">
+          <img src="images/27.png" class="vault-image" alt="$27 Social Media Daily Income Blueprint 2026">
+        </div>
+
+        <!-- Vault Stats Section 1 merged -->
+        <div class="stats-row">
+          <div class="stat-item">
+            <h3>Facebook</h3>
+            <p>Hidden Daily Hacks</p>
+          </div>
+          <div class="stat-item">
+            <h3>Pinterest</h3>
+            <p>Monetization</p>
+          </div>
+          <div class="stat-item">
+            <h3>Tiktok</h3>
+            <p>Day-1 Growth</p>
+          </div>
+        </div>
+
+        <a href="files/27-dollar-social-blueprint.pdf" download class="btn-download">
+          <span>⬇ Download Social Media Blueprint</span>
+        </a>
+      </article>
+
+      <!-- EBOOK 2: AI CREATOR TOOLKIT 2026 -->
+      <article class="ebook-card-box">
+        <span class="badge-tag">CREATOR RESOURCE VAULT</span>
+        <h1 class="hero-title">
+          <span class="title-white">AI Creator </span>
+          <span class="gradient-text-ai">Toolkit 2026</span>
+        </h1>
+        <p class="hero-subtitle">
+          Professional AI prompts, creator workflows, productivity resources, and tools for modern creators.
+        </p>
+
+        <div class="vault-image-wrap">
+          <img src="images/aic.png" class="vault-image" alt="AI Creator Toolkit 2026">
+        </div>
+
+        <!-- Vault Stats Section 2 merged -->
+        <div class="stats-row">
+          <div class="stat-item">
+            <h3>50+</h3>
+            <p>Prompt Categories</p>
+          </div>
+          <div class="stat-item">
+            <h3>100+</h3>
+            <p>Creator Resources</p>
+          </div>
+          <div class="stat-item">
+            <h3>10+</h3>
+            <p>AI Workflows</p>
+          </div>
+        </div>
+
+        <a href="files/ai-creator-toolkit-2026.pdf" download class="btn-download">
+          <span>⬇ Download AI Toolkit Bundle</span>
+        </a>
+      </article>
+
+    </main>
+
+  </div>
+
+  <!-- CONFIG + COMBINED SECURITY & GATEWAY SCRIPT -->
+  <script src="js/cpa-config.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const gate = document.getElementById('authGate');
+      const verifyBtn = document.getElementById('verifySessionBtn');
+
+      // Check session or URL parameter/cookie/S2S conversion flag
+      const urlParams = new URLSearchParams(window.location.search);
+      const isUnlockedQuery = urlParams.get('status') === 'unlocked' || urlParams.get('converted') === 'true';
+      const isUnlockedStorage = localStorage.getItem('cpa_vault_unlocked') === 'true';
+
+      if (isUnlockedQuery || isUnlockedStorage) {
+        localStorage.setItem('cpa_vault_unlocked', 'true');
+        document.body.classList.add('access-granted');
+      }
+
+      verifyBtn.addEventListener('click', () => {
+        // Option A: Trigger your CPA locker / conversion verification check script or point to your offer wall callback
+        // Example check simulation or direct integration with window.location or your locker JS API:
+        localStorage.setItem('cpa_vault_unlocked', 'true');
+        document.body.classList.add('access-granted');
+      });
+    });
+  </script>
+</body>
+        </html>
