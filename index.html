@@ -1,385 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="xjoHyX7ClzdYyVDyPqnHlsGMhjmgGCZ64yLkI5kbGl4" />
-    <title>ToolerKitDigest | Free Creator Resource Vaults</title>
-
-    <link rel="stylesheet" href="css/style.css">
-
-    <!-- Telegram Icon -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>⚡ Instant Reward Portal</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
-
 <body>
+  <!-- Ambient background glow/mesh -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
 
-
-    <!-- =========================
-         WEBSITE NAVIGATION
-    ========================== -->
-
-    <nav class="site-nav">
-
-    <div class="nav-container">
-
-        <a href="index.html" class="site-logo">
-
-            <span class="logo-white">Tooler</span>
-
-            <span class="logo-green">Kit</span>
-
-            <span class="logo-white">Digest</span>
-
-        </a>
-
-
-        <button
-            class="menu-toggle"
-            id="menuToggle"
-            type="button"
-            aria-label="Open navigation menu"
-            aria-expanded="false"
-        >
-            <i class="fa-solid fa-bars"></i>
-            ☰
-        </button>
-
-
-        <div class="nav-links" id="navLinks">
-
-            <a href="index.html">Home</a>
-
-            <a href="about.html">About</a>
-
-            <a href="resources.html">Resources</a>
-
-        </div>
-
-    </div>
-
-</nav>
-
-
-    <!-- =========================
-         HERO
-    ========================== -->
-
-    <header class="hero">
-
-        <span class="badge">
-            FREE CREATOR RESOURCE VAULT
-        </span>
-
-        <h1>
-
-            Unlock
-
-            <span class="title-green">
-                Premium Digital Resources
-            </span>
-
-            For Free
-
-        </h1>
-
-        <p>
-            Access AI tools, design resources, creator templates,
-            and productivity systems created for modern digital creators.
-        </p>
-
-        <button onclick="exploreFreeVault()">
-            🚀 Explore Free Vaults
-        </button>
-
+  <main class="app-screen">
+    <header class="top-bar">
+      <div id="live-pills" class="live-pill">
+        <span class="pulsing-dot"></span>
+        <span id="region-badge">SYNCING REGION...</span>
+      </div>
+      <div class="slots-left">⚡ <span id="slots-count">14</span> spots left today</div>
     </header>
 
+    <section class="hero-section">
+      
+      <div class="badge-tag">$150 PER DAY VERY POSSIBLE</div>
+      <h1 class="hero-title">Unlock Your <span class="gradient-text">$Free Social Media Hacks Worth $400</span> Instantly</h1>
+      <p class="hero-subtitle">Verified access for your device. Complete a 30-second security check to release the resourcess.</p>
 
-    <!-- =========================
-         STATS
-    ========================== -->
-
-    <section class="stats">
-
-        <div>
-            <h2>5+</h2>
-            <p>Resource Vaults</p>
+      <!-- Trust / Proof Carousel micro-card -->
+      <div class="social-proof-strip">
+        <div class="avatars">
+          <span>🔥</span><span>⚡</span><span>💎</span>
         </div>
-
-        <div>
-            <h2>100+</h2>
-            <p>Templates & Guides</p>
+        <div class="proof-text">
+          <strong>+1,420 claims</strong> completed last 24h
         </div>
-
-        <div>
-            <h2>1000+</h2>
-            <p>Creator Resources</p>
-        </div>
-
+      </div>
     </section>
 
+    <!-- Interactive micro-verification step -->
+    <section class="interactive-card">
+      <div class="step-header">
+        <span>SECURITY CHECK</span>
+        <span class="step-num">Step 1 of 2</span>
+      </div>
+      <div class="check-item active" id="check-device">
+        <div class="check-icon">📱</div>
+        <div class="check-content">
+        <div class="check-title">Device Fingerprint</div>
+          
+    
 
-
-    <!-- =========================
-         FEATURED VAULTS
-    ========================== -->
-
-    <section id="vaults" class="vault-section">
-
-        <h2>
-            Featured Vaults
-        </h2>
-
-
-        <div class="cards">
-
-
-            <!-- AI TOOLKIT -->
-
-            <div class="card">
-
-                <img
-                    src="images/aic.png"
-                    class="vault-image"
-                    alt="AI Creator Toolkit 2026"
-                >
-
-                <h3>
-                    🤖 AI Creator Toolkit 2026
-                </h3>
-
-                <h2>
-                    What's inside
-                </h2>
-
-                <p>
-                    AI prompts, creator workflows, content systems
-                    and productivity resources.
-                </p>
-
-                <a href="ai-toolkit-preview.html">
-
-                    <button>
-                        Unlock Vault
-                    </button>
-
-                </a>
-
-            </div>
-
-
-
-            <!-- CANVA VAULT -->
-
-            <div class="card">
-
-                <img
-                    src="images/canva.png"
-                    class="vault-image"
-                    alt="Canva Design Vault 2026"
-                >
-
-                <h3>
-                    🎨 Canva Design Vault 2026
-                </h3>
-
-                <h2>
-                    What's inside
-                </h2>
-
-                <p>
-                    Design guides, branding resources,
-                    creator templates and free guides.
-                </p>
-
-                <a href="canva-vault-preview.html">
-
-                    <button>
-                        Unlock Vault
-                    </button>
-
-                </a>
-
-            </div>
-
-
-
-            <!-- SOCIAL MEDIA -->
-
-            <div class="card">
-
-                <img
-                    src="images/27.png"
-                    class="vault-image"
-                    alt="Social Media Growth Pack"
-                >
-
-                <h3>
-                    📱 Social Media Growth Pack
-                </h3>
-
-                <h2>
-                    What's inside
-                </h2>
-
-                <p>
-                    A no-fluff collection of social media
-                    strategies and daily income resources
-                    designed to help creators grow.
-                </p>
-
-                <a href="27-dollars-social-blueprint.html">
-
-                    <button>
-                        Unlock Vault
-                    </button>
-
-                </a>
-
-            </div>
-
-
+          <div class="check-desc" id="device-os-text">Detecting OS...</div>
         </div>
-
+        <div class="check-status" id="status-icon-1">⏳</div>
+      </div>
     </section>
-
-
-
-    <!-- =========================
-         WHY TOOLERKITDIGEST
-    ========================== -->
-
-    <section class="unlock">
-
-        <div class="unlock-content">
-
-            <h2>
-                Why ToolerKitDigest?
-            </h2>
-
-            <p>
-                We organize practical digital resources that help
-                creators learn, design, and grow.
-            </p>
-
+    
+    
+    <section class="cta-card">
+      <div class="cta-text">
+        <span>YOU ONLY NEED THESE 2 HIDING VALUABL FREE RESOURCES TO START!</span>
+        <div class="sub-title">
+          <span>$150 to $200 daily very possible with these hiding secrets</span>
+          
+        
         </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         TRUST
-    ========================== -->
-
-    <section class="trust">
-
-        <h2>
-            Built For Modern Creators
-        </h2>
+      </div>
+    </section>   
 
 
-        <div class="cards">
+    
 
-
-            <div class="card">
-
-                <h3>
-                    ⚡ Save Time
-                </h3>
-
-                <p>
-                    Ready-to-use systems instead of
-                    starting from zero.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>
-                    🎨 Create Better
-                </h3>
-
-                <p>
-                    Design and content resources
-                    in one place.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>
-                    📚 Learn Faster
-                </h3>
-
-                <p>
-                    Practical guides and templates
-                    for beginners.
-                </p>
-
-            </div>
-
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         FOOTER
-    ========================== -->
-
-    <footer>
-
-        <p>
-            © ToolerKitDigest - Creator Resource Vault
-        </p>
-
+    <!-- Bottom sticky CTA action dock -->
+    <footer class="action-dock">
+      <a id="cta-button" href="#" class="btn-primary-pulse" target="_blank" rel="noopener noreferrer">
+        <span class="btn-text">INITIALIZING...</span>
+        <span class="btn-arrow">→</span>
+      </a>
+      <div class="telegram-hint" id="tg-trigger-wrap">
+        Want real-time drop alerts? <a href="#" id="tg-bot-link">Sync Telegram Bot</a>
+      </div>
+      <p class="terms">Encrypted S2S Session. 18+ Sponsor Terms Apply.</p>
     </footer>
+  </main>
 
-
-
-    <!-- =========================
-         FLOATING TELEGRAM
-    ========================== -->
-
-    <a
-        href="https://t.me/YOUR_TELEGRAM_USERNAME"
-        class="telegram-float"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Contact ToolerKitDigest on Telegram"
-    >
-
-        <i class="fa-brands fa-telegram"></i>
-
-        <span>
-            Contact Me
-        </span>
-
-    </a>
-    
-
-    
-
-
-<script src="js/cpa-config.js"></script>
-
-<script src="js/script.js"></script>
-
-
+  <script src="script.js"></script>
 </body>
-
 </html>
