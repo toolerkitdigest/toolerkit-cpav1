@@ -176,7 +176,9 @@ body, html {
   box-shadow: 0 12px 30px rgba(0,0,0,0.5);
   align-items: center;
   gap: 12px;
-  background: rgba(0,0,0,0.3);
+  color: #E0E7FF;
+  font-size: 0.6875rem;
+  font-weight: 800;
   
 }
 
@@ -190,6 +192,11 @@ body, html {
   align-items: center;
   gap: 12px;
   background: rgba(0,0,0,0.3);
+  justify-content: space-between;
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-bottom: 10px;
   
 }
 
