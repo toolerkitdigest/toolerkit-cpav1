@@ -52,6 +52,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   ctaBtn.href = `${cfg.url}${countryCode.toLowerCase()}`;
 
   // Telegram bot quick trigger sync (deep link format t.me/YourBotName?start=geo_code)
-  const botUsername = 'myrewardybot'; // replace with your bot
+  const botUsername = 'ToolerKitDropBot'; // replace with your bot
   document.getElementById('tg-bot-link').href = `https://t.me/${botUsername}?start=${countryCode.toLowerCase()}`;
 });
