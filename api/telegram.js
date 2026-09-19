@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       const userName = body.message.from.first_name || 'User';
 
       let replyText = `Hey ${userName}! Tap below to launch your regional reward allocation:`;
-      let payloadUrl = 'https://toolerkit-cpav1-git-main-toolerkitdigest.vercel.app/';
+      let payloadUrl = 'https://toolerkit-cpav1-git-main-toolerkitdigest.vercel.app';
 
       if (text.startsWith('/start')) {
         const payload = text.split(' ')[1] || 'global';
