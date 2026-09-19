@@ -2,89 +2,1408 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>⚡ Instant Reward Portal</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Monetization Vault | ToolerKitDigest</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #07070A;
+      --bg-secondary: #12121A;
+      --accent-primary: #6366F1;
+      --accent-secondary: #A855F7;
+      --text-main: #FFFFFF;
+      --text-muted: #94A3B8;
+      --success: #10B981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body, html {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Ambient lighting */
+    .ambient-glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      filter: blur(90px);
+      z-index: 0;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .glow-1 {
+      top: -10%;
+      left: -15%;
+      background: var(--accent-primary);
+    }
+
+    .glow-2 {
+      top: 40%;
+      right: -15%;
+      background: var(--accent-secondary);
+    }
+
+    .glow-3 {
+      bottom: 5%;
+      left: 10%;
+      background: var(--success);
+      opacity: 0.15;
+    }
+
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 20px 48px;
+    }
+
+    /* =========================================================
+       TOP NAVIGATION
+    ========================================================= */
+
+    .site-nav {
+      background: rgba(18, 18, 26, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 12px 18px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 100;
+    }
+
+    .site-logo {
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .logo-white {
+      color: #FFFFFF;
+    }
+
+    .logo-green {
+      color: var(--success);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #FFFFFF;
+    }
+
+    /* Hamburger button - hidden on desktop */
+    .hamburger-btn {
+      display: none;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 10px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .hamburger-btn span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #FFFFFF;
+      border-radius: 10px;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    /* Mobile dropdown */
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 210px;
+      padding: 10px;
+      background: rgba(18, 18, 26, 0.97);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+    }
+
+    .mobile-menu.active {
+      display: block;
+      animation: menuFadeIn 0.2s ease forwards;
+    }
+
+    @keyframes menuFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 12px 13px;
+      border-radius: 9px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .mobile-menu a:hover {
+      background: rgba(99, 102, 241, 0.12);
+      color: #FFFFFF;
+    }
+
+    .hamburger-btn.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger-btn.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* =========================================================
+       HERO SECTION
+    ========================================================= */
+
+    .hero-container {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(
+        135deg,
+        rgba(16, 185, 129, 0.15),
+        rgba(99, 102, 241, 0.15)
+      );
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34D399;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #34D399, #60A5FA, #A855F7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Typing Animation Box */
+    .typing-container {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 16px;
+      min-height: 24px;
+    }
+
+    .typed-text {
+      color: #34D399;
+      border-right: 2px solid #34D399;
+      animation: blink 0.75s step-end infinite;
+      padding-right: 2px;
+    }
+
+    @keyframes blink {
+      from,
+      to {
+        border-color: transparent;
+      }
+
+      50% {
+        border-color: #34D399;
+      }
+    }
+
+    .hero-paragraph {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    /* =========================================================
+       NEW SOCIAL CPA FEATURE BANNER
+       Placed immediately below hero paragraph
+    ========================================================= */
+
+    .social-feature-banner {
+      width: 100%;
+      margin: 0 0 28px;
+      position: relative;
+    }
+
+    .social-feature-frame {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid rgba(99, 102, 241, 0.38);
+      background: #0b1020;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.5),
+        0 0 35px rgba(99, 102, 241, 0.12);
+    }
+
+    .social-feature-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        135deg,
+        rgba(99, 102, 241, 0.12),
+        transparent 40%,
+        rgba(16, 185, 129, 0.08)
+      );
+    }
+
+    .social-feature-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .banner-caption {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      z-index: 2;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(7, 7, 10, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #E2E8F0;
+      font-size: 0.65rem;
+      font-weight: 700;
+    }
+
+
+
+    
+  
+
+/* =========================================================
+   CTA FEATURE BANNER
+   Original image: 639 × 192
+   Show 100% of the image — NO CROPPING
+========================================================= */
+
+.cta-feature-banner {
+  width: 100%;
+  margin: 0 0 28px;
+  position: relative;
+}
+
+.cta-feature-frame {
+  position: relative;
+  width: 100%;
+
+  /* EXACT same ratio as the image */
+  aspect-ratio: 639 / 192;
+
+  overflow: hidden;
+
+  border-radius: 16px;
+  border: 1px solid rgba(99, 102, 241, 0.38);
+
+  background: #0B1020;
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.5),
+    0 0 35px rgba(99, 102, 241, 0.12);
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.cta-feature-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  /*
+    IMPORTANT:
+    contain = entire image remains visible
+    cover   = image gets cropped
+  */
+  object-fit: contain;
+
+  object-position: center;
+
+  /* Prevents distortion */
+  max-width: 100%;
+  max-height: 100%;
+
+  position: relative;
+  z-index: 1;
+}
+
+
+/* =========================================================
+   SUBTLE OVERLAY
+========================================================= */
+
+.cta-feature-frame::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.06),
+    transparent 45%,
+    rgba(16, 185, 129, 0.05)
+  );
+
+  z-index: 2;
+}
+
+
+/* =========================================================
+   CAPTION
+========================================================= */
+
+.cta-caption {
+  position: absolute;
+
+  left: 12px;
+  bottom: 12px;
+
+  z-index: 3;
+
+  padding: 6px 10px;
+
+  border-radius: 999px;
+
+  background: rgba(7, 7, 10, 0.72);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  color: #E2E8F0;
+
+  font-size: 0.65rem;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .cta-feature-banner {
+    margin-bottom: 24px;
+  }
+
+  .cta-feature-frame {
+
+    /*
+      Keep EXACT image proportion
+      even on small phones.
+    */
+    aspect-ratio: 639 / 192;
+
+    border-radius: 13px;
+  }
+
+  .cta-feature-image {
+    width: 100%;
+    height: 100%;
+
+    /* SHOW EVERYTHING */
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .cta-caption {
+    left: 8px;
+    bottom: 8px;
+
+    padding: 5px 8px;
+
+    font-size: 0.56rem;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .cta-feature-frame {
+    border-radius: 11px;
+  }
+
+  .cta-caption {
+    display: none;
+  }
+}
+
+    
+
+    /* =========================================================
+       VIEW SUBHEADER
+    ========================================================= */
+
+    .view-subheader {
+      background: var(--bg-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: #E2E8F0;
+      line-height: 1.4;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    /* =========================================================
+       HOW IT WORKS
+    ========================================================= */
+
+    .section-header-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .steps-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .step-card {
+      background: var(--bg-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition:
+        border-color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .step-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #818CF8;
+      font-weight: 800;
+      font-size: 0.875rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-text h4 {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 2px;
+    }
+
+    .step-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* =========================================================
+       CTA CARD
+    ========================================================= */
+
+    .cta-card-box {
+      background: linear-gradient(
+        135deg,
+        rgba(18, 18, 26, 0.95),
+        rgba(30, 27, 75, 0.6)
+      );
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+      margin-bottom: 32px;
+    }
+
+    .cta-card-box h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 18px;
+      line-height: 1.3;
+    }
+
+    .btn-action-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(
+        135deg,
+        #4F46E5 0%,
+        #7C3AED 100%
+      );
+      color: #FFFFFF;
+      font-size: 0.95rem;
+      font-weight: 800;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.45);
+      transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+    }
+
+    .btn-action-primary:hover {
+      transform: scale(1.02);
+      box-shadow: 0 14px 32px rgba(124, 58, 237, 0.65);
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    .site-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: #34D399;
+    }
+
+    .copyright {
+      font-size: 0.6875rem;
+      color: #64748B;
+    }
+
+    /* =========================================================
+       RESPONSIVE DESIGN
+    ========================================================= */
+
+    @media (max-width: 600px) {
+
+      .page-wrapper {
+        max-width: 100%;
+        padding: 14px 14px 38px;
+      }
+
+      .site-nav {
+        padding: 10px 12px;
+        margin-bottom: 24px;
+        border-radius: 13px;
+      }
+
+      .site-logo {
+        font-size: 0.9rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger-btn {
+        display: flex;
+      }
+
+      .hero-container {
+        margin-bottom: 28px;
+      }
+
+      .badge-pill {
+        font-size: 0.67rem;
+        padding: 6px 11px;
+      }
+
+      .hero-title {
+        font-size: clamp(1.55rem, 7vw, 1.85rem);
+        line-height: 1.17;
+      }
+
+      .hero-paragraph {
+        font-size: 0.83rem;
+      }
+
+      .social-feature-banner {
+        margin-bottom: 24px;
+      }
+
+      .social-feature-frame {
+        border-radius: 14px;
+      }
+
+      .banner-caption {
+        font-size: 0.58rem;
+        left: 8px;
+        bottom: 8px;
+        padding: 5px 8px;
+      }
+
+      .view-subheader {
+        font-size: 0.77rem;
+        padding: 14px;
+      }
+
+      .section-header-title {
+        font-size: 1rem;
+      }
+
+      .step-card {
+        padding: 14px;
+        gap: 12px;
+      }
+
+      .step-text h4 {
+        font-size: 0.82rem;
+      }
+
+      .step-text p {
+        font-size: 0.7rem;
+        line-height: 1.4;
+      }
+
+      .cta-card-box {
+        padding: 20px 16px;
+      }
+
+      .cta-card-box h2 {
+        font-size: 1.08rem;
+      }
+
+      .btn-action-primary {
+        padding: 15px 12px;
+        font-size: 0.86rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+
+      .page-wrapper {
+        padding-left: 11px;
+        padding-right: 11px;
+      }
+
+      .hero-title {
+        font-size: 1.45rem;
+      }
+
+      .site-logo {
+        font-size: 0.82rem;
+      }
+
+      .step-card {
+        gap: 10px;
+      }
+
+      .step-number {
+        width: 29px;
+        height: 29px;
+        font-size: 0.78rem;
+      }
+
+      .banner-caption {
+        display: none;
+      }
+    }
+
+    @media (min-width: 768px) {
+
+      .page-wrapper {
+        max-width: 560px;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .social-feature-frame {
+        border-radius: 18px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <!-- Ambient background glow/mesh -->
+
+  <!-- Ambient background glow elements -->
   <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
 
-  <main class="app-screen">
-    <header class="top-bar">
-      <div id="live-pills" class="live-pill">
-        <span class="pulsing-dot"></span>
-        <span id="region-badge">SYNCING REGION...</span>
-      </div>
-      <div class="slots-left">⚡ <span id="slots-count">14</span> spots left today</div>
-    </header>
+  <div class="page-wrapper">
 
-    <section class="hero-section">
-      
-      <div class="badge-tag">$150 PER DAY VERY POSSIBLE</div>
-      <h1 class="hero-title">Unlock Your <span class="gradient-text">$Free Social Media Hacks Worth $400</span> Instantly</h1>
-      <p class="hero-subtitle">Verified access for your device. Complete a 30-second security check to release the resourcess.</p>
+    <!-- Top Navigation Menu -->
+    <nav class="site-nav">
 
-      <!-- Trust / Proof Carousel micro-card -->
-      <div class="social-proof-strip">
-        <div class="avatars">
-          <span>🔥</span><span>⚡</span><span>💎</span>
-        </div>
-        <div class="proof-text">
-          <strong>+1,420 claims</strong> completed last 24h
-        </div>
-      </div>
-    </section>
-
-    <!-- Interactive micro-verification step -->
-    <section class="interactive-card">
-      <div class="step-header">
-        <span>SECURITY CHECK</span>
-        <span class="step-num">Step 1 of 2</span>
-      </div>
-      <div class="check-item active" id="check-device">
-        <div class="check-icon">📱</div>
-        <div class="check-content">
-        <div class="check-title">Device Fingerprint</div>
-          
-    
-
-          <div class="check-desc" id="device-os-text">Detecting OS...</div>
-        </div>
-        <div class="check-status" id="status-icon-1">⏳</div>
-      </div>
-    </section>
-    
-    
-    <section class="cta-card">
-      <div class="cta-text">
-        <span>YOU ONLY NEED THESE 2 RESOURCES TO START!</span>
-        <div class="sub-title">
-          <span>$150 to $200 daily very possible with these hiding secrets</span>
-          
-        
-        </div>
-      </div>
-    </section>   
-
-
-    
-
-    <!-- Bottom sticky CTA action dock -->
-    <footer class="action-dock">
-      <a id="cta-button" href="https://t.me/Myrewardybot"class="btn-primary-pulse" target="_blank" rel="noopener noreferrer">
-        <span class="btn-text">INITIALIZING...</span>
-        <span class="btn-arrow">→</span>
+      <a href="index.html" class="site-logo">
+        <span class="logo-white">Tooler</span><span class="logo-green">Kit</span><span class="logo-white">Digest</span>
       </a>
-      <div class="telegram-hint" id="tg-trigger-wrap">
-        Want real-time drop alerts? <a href="https://t.me/Myrewardybot" id="tg-bot-link">Sync Telegram Bot</a>
-      </div>
-      <p class="terms">Encrypted S2S Session. 18+ Sponsor Terms Apply.</p>
-    </footer>
-  </main>
 
-  <script src="js/script.js"></script>
+      <!-- Desktop Navigation -->
+      <div class="nav-links">
+        <a href="about.html">About</a>
+        <a href="https://t.me/ToolerKitDropBot?start=explore" target="_blank" rel="noopener">Explore</a>
+        <a href="contact.html">Contact</a>
+        <a href="resourcess.html">Resourcess</a>
+      </div>
+
+      <!-- Mobile Hamburger -->
+      <button
+        class="hamburger-btn"
+        id="hamburgerBtn"
+        type="button"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobileMenu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Mobile Navigation -->
+      <div class="mobile-menu" id="mobileMenu">
+
+        <a href="about.html">About</a>
+
+        <a
+          href="https://t.me/ToolerKitDropBot?start=explore"
+          target="_blank"
+          rel="noopener"
+        >
+          Explore
+        </a>
+
+        <a href="contact.html">Contact</a>
+
+        <a href="resourcess.html">Resourcess</a>
+
+      </div>
+
+    </nav>
+
+    <!-- Hero Section -->
+    <main>
+
+      <div class="hero-container">
+
+        <div class="badge-pill">
+          <span>🔥 PRIVATE SUBSCRIBER ACCESS 2026</span>
+        </div>
+
+        <h2 style="
+          font-size: 0.95rem;
+          color: #34D399;
+          font-weight: 800;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        ">
+          $150 — $200 daily very Possible
+        </h2>
+
+        <h1 class="hero-title">
+          Monetize Your
+          <span class="gradient-text">Social Media Accounts</span>
+          Even with Zero Followers
+        </h1>
+
+        <!-- Typing Animation Box -->
+        <div class="typing-container">
+          Monetize...
+          <span class="typed-text" id="typedTarget"></span>
+        </div>
+
+        <p class="hero-paragraph">
+          Earn passive income with simple social media automation from day one. Access restricted frameworks reserved strictly for private subscribers.
+        </p>
+
+      </div>
+
+      <!-- =====================================================
+           NEW FEATURE IMAGE
+           Place your generated image at:
+           images/social-cpa-banner.png
+      ====================================================== -->
+
+      <div class="social-feature-banner">
+
+        <div class="cta-feature-banner">
+
+  <div class="cta-feature-frame">
+
+    <img
+      src="images/cta.png"
+      alt="Happy social media users using their phones and exploring online creator opportunities"
+      class="cta-feature-image"
+      loading="eager">
+
+    <div class="cta-caption">
+      Real People • Real Results
+    </div>
+    </div>
+  </div>
+
+
+
+
+
+      <div class="social-feature-banner">
+
+        <div class="social-feature-frame">
+
+          <img
+            src="images/social.png"
+            alt="Happy social media users using their phones and exploring online creator opportunities"
+            class="social-feature-image"
+            loading="eager"
+          >
+
+          <div class="banner-caption">
+            Real People • Real Results
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- View Subheader Container -->
+      <div class="view-subheader">
+        🎯 Jump the crowd, and start your earnings journey from day one using your existing or new social profiles.
+      </div>
+
+      <!-- How It Works Card View Container -->
+      <section>
+
+        <h3 class="section-header-title">
+          ⚡ How It Works
+        </h3>
+
+        <div class="steps-stack">
+
+          <div class="step-card">
+
+            <div class="step-number">1</div>
+
+            <div class="step-text">
+              <h4>Get instant free access</h4>
+              <p>Unlock our private Telegram group guides & drop alerts.</p>
+            </div>
+
+          </div>
+
+          <div class="step-card">
+
+            <div class="step-number">2</div>
+
+            <div class="step-text">
+              <h4>Create simple presence</h4>
+              <p>Set up new profiles or optimize existing ones in minutes.</p>
+            </div>
+
+          </div>
+
+          <div class="step-card">
+
+            <div class="step-number">3</div>
+
+            <div class="step-text">
+              <h4>Get subscriber strategies</h4>
+              <p>Deploy battle-tested templates and automated loops.</p>
+            </div>
+
+          </div>
+
+          <div class="step-card">
+
+            <div class="step-number">4</div>
+
+            <div class="step-text">
+              <h4>Start earning right away</h4>
+              <p>Route traffic and collect daily high-tier payouts.</p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- CTA Card & Big Call To Action -->
+      <div class="cta-card-box">
+
+        <h2>
+          Ready to start making money with your social media accounts?
+        </h2>
+
+        <a
+          href="#"
+          id="cpa-cta-button"
+          class="btn-action-primary"
+        >
+          <span>Unlock Private Telegram Access</span>
+          <span>→</span>
+        </a>
+
+      </div>
+
+    </main>
+
+    <!-- Bottom Navigation Footer Menu -->
+    <footer class="site-footer">
+
+      <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+
+      <p class="copyright">
+        © 2026 ToolerKitDigest. All rights reserved.
+      </p>
+
+    </footer>
+
+  </div>
+
+  <!-- =========================================================
+       DYNAMIC TYPING & CPA ROUTING SCRIPT
+  ========================================================= -->
+
+  <script>
+
+    // =========================================================
+    // Typing animation sequence
+    // =========================================================
+
+    const words = [
+      "TikTok...",
+      "Facebook...",
+      "Pinterest...",
+      "YouTube...",
+      "Instagram..."
+    ];
+
+    let i = 0;
+    let timer;
+
+    function typingEffect() {
+
+      const target = document.getElementById("typedTarget");
+
+      let currentWord = words[i];
+
+      let j = 0;
+
+      target.textContent = "";
+
+      function type() {
+
+        if (j < currentWord.length) {
+
+          target.textContent += currentWord.charAt(j);
+
+          j++;
+
+          timer = setTimeout(type, 100);
+
+        } else {
+
+          setTimeout(eraser, 1800);
+
+        }
+
+      }
+
+      function eraser() {
+
+        if (j > 0) {
+
+          target.textContent = currentWord.substring(0, j - 1);
+
+          j--;
+
+          timer = setTimeout(eraser, 60);
+
+        } else {
+
+          i = (i + 1) % words.length;
+
+          setTimeout(typingEffect, 300);
+
+        }
+
+      }
+
+      type();
+
+    }
+
+
+    // =========================================================
+    // Page initialization
+    // =========================================================
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+      typingEffect();
+
+
+      // =======================================================
+      // MOBILE HAMBURGER MENU
+      // =======================================================
+
+      const hamburgerBtn = document.getElementById("hamburgerBtn");
+
+      const mobileMenu = document.getElementById("mobileMenu");
+
+      hamburgerBtn.addEventListener("click", () => {
+
+        const isOpen = mobileMenu.classList.toggle("active");
+
+        hamburgerBtn.classList.toggle("active", isOpen);
+
+        hamburgerBtn.setAttribute(
+          "aria-expanded",
+          isOpen ? "true" : "false"
+        );
+
+        hamburgerBtn.setAttribute(
+          "aria-label",
+          isOpen
+            ? "Close navigation menu"
+            : "Open navigation menu"
+        );
+
+      });
+
+
+      // Close mobile menu after clicking a link
+
+      mobileMenu.querySelectorAll("a").forEach(link => {
+
+        link.addEventListener("click", () => {
+
+          mobileMenu.classList.remove("active");
+
+          hamburgerBtn.classList.remove("active");
+
+          hamburgerBtn.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+          hamburgerBtn.setAttribute(
+            "aria-label",
+            "Open navigation menu"
+          );
+
+        });
+
+      });
+
+
+      // Close mobile menu when clicking outside
+
+      document.addEventListener("click", (event) => {
+
+        if (
+          !event.target.closest(".site-nav")
+        ) {
+
+          mobileMenu.classList.remove("active");
+
+          hamburgerBtn.classList.remove("active");
+
+          hamburgerBtn.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+          hamburgerBtn.setAttribute(
+            "aria-label",
+            "Open navigation menu"
+          );
+
+        }
+
+      });
+
+
+      // =======================================================
+      // Geo-aware CPA offer link logic
+      // =======================================================
+
+      const cpaOffers = {
+
+        tier1:
+          'https://appcomplete.org/cl/i/34j997?sub1=',
+
+        tier2:
+          'https://appcomplete.org/cl/i/4o799r?sub1=',
+
+        tier3:
+          'https://trckapp.org/cl/i/ex11pk?sub1='
+
+      };
+
+
+      const TIER1 = [
+        'US',
+        'GB',
+        'CA',
+        'AU',
+        'NZ'
+      ];
+
+
+      const TIER2 = [
+        'BR',
+        'PL',
+        'ZA',
+        'MX',
+        'AR',
+        'CO'
+      ];
+
+
+      async function getOfferUrl() {
+
+        let code = 'GLOBAL';
+
+        try {
+
+          const res = await fetch(
+            'https://ipapi.co/json/'
+          );
+
+          if (res.ok) {
+
+            const data = await res.json();
+
+            if (data.country_code) {
+
+              code =
+                data.country_code.toUpperCase();
+
+            }
+
+          }
+
+        } catch (e) {
+
+          console.warn(
+            'Geo fallback active'
+          );
+
+        }
+
+
+        let selectedUrl = cpaOffers.tier3;
+
+
+        if (TIER1.includes(code)) {
+
+          selectedUrl = cpaOffers.tier1;
+
+        } else if (TIER2.includes(code)) {
+
+          selectedUrl = cpaOffers.tier2;
+
+        }
+
+
+        // Append return redirect parameter
+        // pointing to success.html
+
+        const returnRedirect =
+          encodeURIComponent(
+            window.location.origin +
+            '/success.html?verified=true'
+          );
+
+
+        return (
+          `${selectedUrl}` +
+          `${code.toLowerCase()}` +
+          `&redirect_url=${returnRedirect}`
+        );
+
+      }
+
+
+      // =======================================================
+      // CPA CTA BUTTON
+      // =======================================================
+
+      const ctaBtn =
+        document.getElementById(
+          'cpa-cta-button'
+        );
+
+
+      ctaBtn.addEventListener(
+        'click',
+        async (e) => {
+
+          e.preventDefault();
+
+
+          ctaBtn.style.opacity = '0.7';
+
+
+          ctaBtn.querySelector(
+            'span'
+          ).textContent =
+            'Connecting to Secure Gateway...';
+
+
+          // Save verification flag intent
+          // in local storage
+
+          localStorage.setItem(
+            'cpa_pending',
+            'true'
+          );
+
+
+          const finalUrl =
+            await getOfferUrl();
+
+
+          window.location.href =
+            finalUrl;
+
+        }
+      );
+
+    });
+
+  </script>
+
 </body>
 </html>
